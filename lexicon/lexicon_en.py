@@ -8,6 +8,12 @@ MAIN_LEXICON: dict[str: str] = {
     'OLD': 'Repetition'
 }
 
+LEXICON_COMMANDS: dict[str, str] = {
+    '/start': 'Welcome to the word learning bot!',
+    '/beginning': 'To the main menu.',
+    '/help': 'Bot help.'
+}
+
 REGISTRATION: dict[str: str] = {
     'INITIALIZATION': 'Please enter your name.',
     'INCORRECT_NAME': 'The name must contain only letters.',
@@ -33,10 +39,13 @@ ACCOUNT_SETTINGS: dict[str: dict | str] = {
                          'SUCCESS': 'Profile deleted.'},
     'LIBRARY': 'Words library settings',
     'WORD_LIBRARY': {'EDIT': 'Edit word library.',
-                      'WEB_PAGE': 'Open Wiki Dictionary page.',
-                      'DELETE': 'Delete.',
-                      'MARK': 'Mark/unamark as learned.',
-                      'CLEAR': 'Clear library.',
-                      'CONFIRMATION': 'Enter "CLEAR LIBRARY" to confirm.',
-                      'SUCCESS': 'Library cleaned.'}
+                     'WEB_PAGE': 'Open Wiki Dictionary page.',
+                     'DELETE': 'Delete.',
+                     'MARK': 'Mark/unamark as learned.',
+                     'CLEAR': 'Clear library.',
+                     'CONFIRMATION': 'Enter "CLEAR LIBRARY" to confirm.',
+                     'SUCCESS': 'Library cleaned.',
+                     'NEXT': '>>',
+                     'PREV': '<<'
+                     }
 }
