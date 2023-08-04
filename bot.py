@@ -1,10 +1,11 @@
 import asyncio
 import logging
 
-
 from aiogram import Bot, Dispatcher
+
 from config_data.config import Config, load_config
-from handlers import other_handlers, user_handlers
+from states.states import storage
+from handlers import other_handlers, user_handlers_registered, user_registration, lesson_handlers
 from keyboards.main_menu import set_main_menu
 
 
@@ -30,10 +31,12 @@ async def main():
 
     await set_main_menu(bot)
 
-    dp: Dispatcher = Dispatcher()
+    dp: Dispatcher = Dispatcher(storage=storage)
 
     # Routers connection
-    dp.include_router(user_handlers.router)
+    dp.include_router(user_registration.router)
+    dp.include_router(user_handlers_registered.router)
+    dp.include_router(lesson_handlers.router)
     dp.include_router(other_handlers.router)
 
     # Skip stocked updates

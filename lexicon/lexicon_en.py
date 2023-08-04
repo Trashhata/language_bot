@@ -9,9 +9,25 @@ MAIN_LEXICON: dict[str: str] = {
 }
 
 LEXICON_COMMANDS: dict[str, str] = {
-    '/start': 'Welcome to the word learning bot!',
-    '/beginning': 'To the main menu.',
+    '/start': 'Getting started',
+    '/new_lesson': 'Start the new lesson.',
+    '/repetition': 'Old words repetition.',
+    '/settings': 'User information and words control.',
     '/help': 'Bot help.'
+}
+
+MAIN_MENU_LEXICON: dict[str, str] = {
+    'START_MESSAGE': '''Welcome to the word learning bot!
+To start new lesson push /new_lesson
+To start repetition push /repetition
+To enter setting push /setting
+For help push /help''',
+    'HELP_MESSAGE': '''This bot was created for a language learning.
+Tap "new lesson" command for learning new words.
+Tap "repetition" command for old words repetition.
+To enter settings tap "settings" command.''',
+    'LESSON_START': 'Starting the new lesson.',
+    'SETTINGS_DESCR': 'Here you can change user information\nand control word base.'
 }
 
 REGISTRATION: dict[str: str] = {
@@ -20,12 +36,20 @@ REGISTRATION: dict[str: str] = {
     'AGE_ENTER': 'Enter your age.',
     'INCORRECT_AGE': 'Age must be a number from 5 to 110.',
     'AVATAR_SELECTION': 'Please select avatar image or press skip button.',
-    'INCORRECT_DATA': 'The avatar must be an image.'
+    'SKIP': 'Skip',
+    'TAP_TO_SKIP': 'Tap me!',
+    'INCORRECT_DATA': 'The avatar must be an image.',
+    'REGISTRATION_FINISHED': 'Successful registration.'
 }
 
 LESSON_LEXICON: dict[str: str] = {
     'AMOUNT_SELECTION': 'Please select number of learning words in the keyboard below:',
-    'ONCE_MORE': 'Would you like to have another lesson?'
+    'INCORRECT_AMOUNT': 'Amount must be a number from 10 to 40.',
+    'LESSON_IS_OVER': 'Lesson is over.\nWould you like to have another lesson?',
+    'LESSON_STARTING': 'Please wait, lesson is starting...',
+    'RIGHT_ANSWER': 'Right answer!',
+    'INCORRECT_ANSWER': 'Incorrect answer! The right answer is: '
+
 }
 
 ACCOUNT_SETTINGS: dict[str: dict | str] = {

@@ -1,17 +1,53 @@
 from external_services.get_info import get_info
+from typing import Generator
 
 
 class WordExistError(Exception):
     pass
 
 
-# USER CLASS
+"""
+Words is a list of Choices.
+Each call of a class object remove one word from it.
+"""
+
+
+class Lesson:
+    def __init__(self, words: list):
+        self.__words = iter(words)
+        self.__right_answer = None
+
+    @property
+    def words(self):
+        return self.__words
+
+    @property
+    def right_answer(self):
+        return self.__right_answer
+
+    def __call__(self, *args, **kwargs):
+        try:
+            next_word = next(self.words)
+            self.__right_answer = next_word.right_answer.translation
+            print(next_word.right_answer.word, next_word.right_answer.translation)
+
+            print(self.__right_answer)
+
+            return next_word
+
+        except StopIteration:
+
+            return None
+
+
 class User:
-    def __init__(self, name, age, photo):
-        self.__name = name
-        self.__age = age
-        self.__photo = photo
+    def __init__(self, student_data: dict):
+        self.__name = student_data['name']
+        self.__age = student_data['age']
+        self.__photo = student_data['photo']
         self.__words: dict[str, dict] = dict()
+        # executed lesson
+        self.__current_lesson: Lesson | None = None
 
     @property
     def name(self):
@@ -41,6 +77,18 @@ class User:
     def words(self) -> iter:
         return iter((word, info) for word, info in sorted(self.__words.items()))
 
+    @property
+    def lesson(self):
+        return self.__current_lesson
+
+    @property
+    def right_answer(self):
+        return self.__current_lesson.right_answer
+
+    @lesson.setter
+    def lesson(self, lesson):
+        self.__current_lesson = lesson
+
     def add_word(self, addable: str):
         if not self.__words.get(addable):
             self.__words[addable] = get_info()
@@ -58,12 +106,6 @@ class User:
     def learned(self, word: str, learned: bool):
         try:
             self.__words[word]['learned'] = learned
-        except KeyError:
-            raise WordExistError("Word doesn't exist.")
-
-    def get_wiki(self, word: str):
-        try:
-            return self.__words[word]['wiki']
         except KeyError:
             raise WordExistError("Word doesn't exist.")
 

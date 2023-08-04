@@ -1,7 +1,7 @@
-from aiogram.types import ReplyKeyboardMarkup, KeyboardButton
+from aiogram.types import ReplyKeyboardMarkup, KeyboardButton, InlineKeyboardButton, InlineKeyboardMarkup
 
 
-from lexicon.lexicon_en import MAIN_LEXICON, ACCOUNT_SETTINGS
+from lexicon.lexicon_en import MAIN_LEXICON, ACCOUNT_SETTINGS, REGISTRATION
 
 
 # YES | NO Buttons
@@ -23,13 +23,6 @@ MAIN_MENU_KEYBOARD: ReplyKeyboardMarkup = ReplyKeyboardMarkup(keyboard=[[button_
                                                               one_time_keyboard=True,
                                                               resize_keyboard=True)
 
-# WORDS AMOUNT SELECTION
-
-AMOUNT_SELECTION_KEYBOARD: ReplyKeyboardMarkup = ReplyKeyboardMarkup(keyboard=[[KeyboardButton(text=str(i)) for i in (10, 15, 20)],
-                                                                               [KeyboardButton(text=str(i)) for i in (25, 30, 35)],
-                                                                               [KeyboardButton(text=str(i)) for i in (40,)]],
-                                                                     one_time_keyboard=True,
-                                                                     resize_keyboard=True)
 
 # SETTINGS KEYBOARD
 
@@ -50,3 +43,10 @@ LIBRARY_KEYBOARD: ReplyKeyboardMarkup = ReplyKeyboardMarkup(keyboard=[(CLEAR_BUT
                                                             one_time_keyboard=True,
                                                             resize_keyboard=True)
 
+
+# SKIP KEYBOARD
+
+SKIP_BUTTON: InlineKeyboardButton = InlineKeyboardButton(text=REGISTRATION['SKIP'],
+                                                         callback_data='Skip.')
+
+SKIP_KEYBOARD: InlineKeyboardMarkup = InlineKeyboardMarkup(inline_keyboard=[[SKIP_BUTTON]])
