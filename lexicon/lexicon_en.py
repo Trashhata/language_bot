@@ -48,7 +48,8 @@ LESSON_LEXICON: dict[str: str] = {
     'LESSON_IS_OVER': 'Lesson is over.\nWould you like to have another lesson?',
     'LESSON_STARTING': 'Please wait, lesson is starting...',
     'RIGHT_ANSWER': 'Right answer!',
-    'INCORRECT_ANSWER': 'Incorrect answer! The right answer is: '
+    'INCORRECT_ANSWER': 'Incorrect answer! The right answer is: ',
+    'CRASH': 'Oops... something went wrong!'
 
 }
 

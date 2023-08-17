@@ -8,7 +8,7 @@ from states.states import StudentState
 from lexicon.lexicon_en import LESSON_LEXICON
 from keyboards.lesson_keyboard import choice_keyboard_creation
 from services.lesson_services import start_lesson
-from data_base.users import USER_BASE, Lesson
+from data_base.users import get_from_base, write_into_base, update_user_obj
 
 
 router: Router = Router()
@@ -20,10 +20,14 @@ async def end_lesson(message, state):
     message.answer(text='LESSON IS OVER')
 
 
+
 # lesson logic
 async def lesson_in_progress(message: Message | CallbackQuery, state: FSMContext):
-    answers = USER_BASE[message.from_user.id].lesson()
-    # adds information about the current right answer
+
+    user = await get_from_base(message.from_user.id)
+    answers = user.lesson()
+
+    await update_user_obj(user)
 
     if not answers:
         await end_lesson(message, state)
@@ -48,8 +52,14 @@ async def right_amount_selected(message: Message, state: FSMContext):
                        user_id=message.from_user.id,
                        repetition=False)
 
-    # first word showing
-    await lesson_in_progress(message, state)
+    try:
+        # first word showing
+        await lesson_in_progress(message, state)
+
+    except Exception:
+        await message.answer(LESSON_LEXICON['CRASH'])
+        await state.set_state(StudentState.REGISTERED)
+        raise
 
 
 # handler for incorrect amount selection
@@ -67,9 +77,8 @@ async def answer_check(callback_query: CallbackQuery, state: FSMContext):
         await callback_query.message.answer(text=LESSON_LEXICON['RIGHT_ANSWER'])
 
     if callback_query.data == 'False':
-        r_a = USER_BASE[callback_query.from_user.id].right_answer
+        r_a = (await get_from_base(callback_query.from_user.id)).right_answer
 
         await callback_query.message.answer(text=LESSON_LEXICON['INCORRECT_ANSWER'] + r_a)
 
     await lesson_in_progress(callback_query, state)
-

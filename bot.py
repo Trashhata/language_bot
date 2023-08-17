@@ -7,7 +7,7 @@ from config_data.config import Config, load_config
 from states.states import storage
 from handlers import other_handlers, user_handlers_registered, user_registration, lesson_handlers
 from keyboards.main_menu import set_main_menu
-
+from data_base.users import initiate_user_base
 
 # logger initiation
 logger = logging.getLogger(__name__)
@@ -30,6 +30,8 @@ async def main():
                    parse_mode='HTML')
 
     await set_main_menu(bot)
+
+    await initiate_user_base()
 
     dp: Dispatcher = Dispatcher(storage=storage)
 

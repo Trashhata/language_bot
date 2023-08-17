@@ -1,18 +1,14 @@
 from aiogram import Router
 from aiogram.filters import Command, CommandStart, StateFilter
 from aiogram.types import Message
+
 from states.states import StudentState
-
-from data_base.users import USER_BASE
-
-from keyboards import keyboards, lesson_keyboard, main_menu, word_list
+from keyboards import lesson_keyboard
 
 from lexicon.lexicon_en import MAIN_MENU_LEXICON, LESSON_LEXICON
 
 from states import states
-from services import lesson_services
 from aiogram.fsm.context import FSMContext
-from aiogram.fsm.state import default_state
 
 
 router: Router = Router()

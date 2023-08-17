@@ -22,4 +22,6 @@ def choice_keyboard_creation(choices) -> InlineKeyboardMarkup:
         choice_keyboard.add(InlineKeyboardButton(text=word,
                                                  callback_data=callback))
 
+    choice_keyboard.adjust(1)
+
     return choice_keyboard.as_markup()

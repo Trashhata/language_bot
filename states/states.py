@@ -1,14 +1,6 @@
-from aiogram import Router, F
-
-from aiogram.filters import Command, CommandStart, StateFilter
 from aiogram.filters.state import State, StatesGroup
-
-from aiogram.fsm.context import FSMContext
-from aiogram.fsm.state import default_state
-from aiogram.fsm.storage.memory import MemoryStorage
-
-from aiogram.types import (CallbackQuery, InlineKeyboardMarkup,
-                           InlineKeyboardButton, Message, PhotoSize)
+from aiogram.fsm.storage.redis import RedisStorage
+import redis.asyncio as redis
 
 
 class StudentState(StatesGroup):
@@ -23,4 +15,7 @@ class StudentState(StatesGroup):
     LESSON_IS_OVER = State()
 
 
-storage: MemoryStorage = MemoryStorage()
+storage: RedisStorage = RedisStorage(redis=redis.Redis(host='localhost',
+                                                       port=6379,
+                                                       decode_responses=True)
+                                     )
