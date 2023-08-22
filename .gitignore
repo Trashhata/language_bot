@@ -3,3 +3,6 @@ venv/
 
 .env
 .idea
+user_base.db
+error.txt
+Language_bot.jpg
