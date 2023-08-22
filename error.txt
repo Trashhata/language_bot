@@ -1,0 +1,159 @@
+C:\Users\macsw\OneDrive\Desktop\language_bot\venv\Scripts\python.exe C:\Users\macsw\OneDrive\Desktop\language_bot\bot.py 
+bot.py:24 #INFO     [2023-08-17 17:00:10,488] - root - Starting Bot
+dispatcher.py:520 #INFO     [2023-08-17 17:00:10,877] - aiogram.dispatcher - Start polling
+dispatcher.py:339 #INFO     [2023-08-17 17:00:10,963] - aiogram.dispatcher - Run polling for bot @Phil_armory_bot id=5658537585 - 'Phil'
+dispatcher.py:171 #INFO     [2023-08-17 17:00:54,745] - aiogram.event - Update id=126184298 is handled. Duration 359 ms by bot id=5658537585
+dispatcher.py:171 #INFO     [2023-08-17 17:00:59,924] - aiogram.event - Update id=126184299 is handled. Duration 109 ms by bot id=5658537585
+dispatcher.py:171 #INFO     [2023-08-17 17:01:07,620] - aiogram.event - Update id=126184300 is handled. Duration 186 ms by bot id=5658537585
+dispatcher.py:171 #INFO     [2023-08-17 17:01:10,721] - aiogram.event - Update id=126184301 is handled. Duration 125 ms by bot id=5658537585
+dispatcher.py:171 #INFO     [2023-08-17 17:01:12,004] - aiogram.event - Update id=126184302 is handled. Duration 125 ms by bot id=5658537585
+dispatcher.py:171 #INFO     [2023-08-17 17:01:17,157] - aiogram.event - Update id=126184303 is handled. Duration 358 ms by bot id=5658537585
+jee open-and-shut overcapitalized infanticidal publican structured goa polony overbought awoken watering-can kind polysaccharide chowkidar flox milking tumblerful impersonify scotia diphtheria occupational tool up foreboding spheroid deck-cabin survey desideratum preclude affectation transmission stagnicolous quiche kibe palette screak phenacite boiled bridgeman bilk soup up
+jee двигать, передвигать, гей!, но!
+двигать, передвигать, гей!, но!
+dispatcher.py:171 #INFO     [2023-08-17 17:01:20,359] - aiogram.event - Update id=126184304 is handled. Duration 390 ms by bot id=5658537585
+dispatcher.py:171 #INFO     [2023-08-17 17:01:22,987] - aiogram.event - Update id=126184305 is handled. Duration 125 ms by bot id=5658537585
+open-and-shut ясно до конца, элементарный, очевидный
+ясно до конца, элементарный, очевидный
+dispatcher.py:171 #INFO     [2023-08-17 17:01:25,811] - aiogram.event - Update id=126184306 is handled. Duration 390 ms by bot id=5658537585
+dispatcher.py:171 #INFO     [2023-08-17 17:01:26,909] - aiogram.event - Update id=126184307 is handled. Duration 280 ms by bot id=5658537585
+dispatcher.py:171 #INFO     [2023-08-17 17:01:29,817] - aiogram.event - Update id=126184308 is handled. Duration 125 ms by bot id=5658537585
+overcapitalized иметь лишний капитал
+иметь лишний капитал
+dispatcher.py:171 #INFO     [2023-08-17 17:01:31,089] - aiogram.event - Update id=126184309 is handled. Duration 280 ms by bot id=5658537585
+dispatcher.py:171 #INFO     [2023-08-17 17:01:31,314] - aiogram.event - Update id=126184310 is handled. Duration 265 ms by bot id=5658537585
+Registration failed, user already exists.
+infanticidal относящийся к детоубийству
+относящийся к детоубийству
+dispatcher.py:171 #INFO     [2023-08-17 17:01:41,515] - aiogram.event - Update id=126184311 is not handled. Duration 5718 ms by bot id=5658537585
+dispatcher.py:313 #ERROR    [2023-08-17 17:01:41,515] - aiogram.event - Cause exception while process update id=126184311 by bot id=5658537585
+OperationalError: database is locked
+Traceback (most recent call last):
+  File "C:\Users\macsw\OneDrive\Desktop\language_bot\venv\Lib\site-packages\aiogram\dispatcher\dispatcher.py", line 307, in _process_update
+    response = await self.feed_update(bot, update, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\macsw\OneDrive\Desktop\language_bot\venv\Lib\site-packages\aiogram\dispatcher\dispatcher.py", line 157, in feed_update
+    response = await self.update.wrap_outer_middleware(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\macsw\OneDrive\Desktop\language_bot\venv\Lib\site-packages\aiogram\dispatcher\middlewares\error.py", line 25, in __call__
+    return await handler(event, data)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\macsw\OneDrive\Desktop\language_bot\venv\Lib\site-packages\aiogram\dispatcher\middlewares\user_context.py", line 27, in __call__
+    return await handler(event, data)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\macsw\OneDrive\Desktop\language_bot\venv\Lib\site-packages\aiogram\fsm\middleware.py", line 39, in __call__
+    return await handler(event, data)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\macsw\OneDrive\Desktop\language_bot\venv\Lib\site-packages\aiogram\dispatcher\event\telegram.py", line 124, in trigger
+    return await wrapped_inner(event, kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\macsw\OneDrive\Desktop\language_bot\venv\Lib\site-packages\aiogram\dispatcher\event\handler.py", line 42, in call
+    return await wrapped()
+           ^^^^^^^^^^^^^^^
+  File "C:\Users\macsw\OneDrive\Desktop\language_bot\venv\Lib\site-packages\aiogram\dispatcher\dispatcher.py", line 274, in _listen_update
+    return await self.propagate_event(update_type=update_type, event=event, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\macsw\OneDrive\Desktop\language_bot\venv\Lib\site-packages\aiogram\dispatcher\router.py", line 116, in propagate_event
+    return await observer.wrap_outer_middleware(_wrapped, event=event, data=kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\macsw\OneDrive\Desktop\language_bot\venv\Lib\site-packages\aiogram\dispatcher\router.py", line 111, in _wrapped
+    return await self._propagate_event(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\macsw\OneDrive\Desktop\language_bot\venv\Lib\site-packages\aiogram\dispatcher\router.py", line 135, in _propagate_event
+    response = await router.propagate_event(update_type=update_type, event=event, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\macsw\OneDrive\Desktop\language_bot\venv\Lib\site-packages\aiogram\dispatcher\router.py", line 116, in propagate_event
+    return await observer.wrap_outer_middleware(_wrapped, event=event, data=kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\macsw\OneDrive\Desktop\language_bot\venv\Lib\site-packages\aiogram\dispatcher\router.py", line 111, in _wrapped
+    return await self._propagate_event(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\macsw\OneDrive\Desktop\language_bot\venv\Lib\site-packages\aiogram\dispatcher\router.py", line 128, in _propagate_event
+    response = await observer.trigger(event, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\macsw\OneDrive\Desktop\language_bot\venv\Lib\site-packages\aiogram\dispatcher\event\telegram.py", line 124, in trigger
+    return await wrapped_inner(event, kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\macsw\OneDrive\Desktop\language_bot\venv\Lib\site-packages\aiogram\dispatcher\event\handler.py", line 42, in call
+    return await wrapped()
+           ^^^^^^^^^^^^^^^
+  File "C:\Users\macsw\OneDrive\Desktop\language_bot\handlers\lesson_handlers.py", line 57, in answer_check
+    await lesson_in_progress(callback_query, state)
+  File "C:\Users\macsw\OneDrive\Desktop\language_bot\services\lesson_services.py", line 50, in lesson_in_progress
+    await update_user_obj(user)
+  File "C:\Users\macsw\OneDrive\Desktop\language_bot\data_base\users.py", line 169, in update_user_obj
+    cur.execute('UPDATE UserBase SET user=? WHERE id=?',
+sqlite3.OperationalError: database is locked
+infanticidal относящийся к детоубийству
+относящийся к детоубийству
+dispatcher.py:171 #INFO     [2023-08-17 17:01:47,346] - aiogram.event - Update id=126184313 is not handled. Duration 5734 ms by bot id=5658537585
+dispatcher.py:313 #ERROR    [2023-08-17 17:01:47,346] - aiogram.event - Cause exception while process update id=126184313 by bot id=5658537585
+OperationalError: database is locked
+Traceback (most recent call last):
+  File "C:\Users\macsw\OneDrive\Desktop\language_bot\venv\Lib\site-packages\aiogram\dispatcher\dispatcher.py", line 307, in _process_update
+    response = await self.feed_update(bot, update, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\macsw\OneDrive\Desktop\language_bot\venv\Lib\site-packages\aiogram\dispatcher\dispatcher.py", line 157, in feed_update
+    response = await self.update.wrap_outer_middleware(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\macsw\OneDrive\Desktop\language_bot\venv\Lib\site-packages\aiogram\dispatcher\middlewares\error.py", line 25, in __call__
+    return await handler(event, data)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\macsw\OneDrive\Desktop\language_bot\venv\Lib\site-packages\aiogram\dispatcher\middlewares\user_context.py", line 27, in __call__
+    return await handler(event, data)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\macsw\OneDrive\Desktop\language_bot\venv\Lib\site-packages\aiogram\fsm\middleware.py", line 39, in __call__
+    return await handler(event, data)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\macsw\OneDrive\Desktop\language_bot\venv\Lib\site-packages\aiogram\dispatcher\event\telegram.py", line 124, in trigger
+    return await wrapped_inner(event, kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\macsw\OneDrive\Desktop\language_bot\venv\Lib\site-packages\aiogram\dispatcher\event\handler.py", line 42, in call
+    return await wrapped()
+           ^^^^^^^^^^^^^^^
+  File "C:\Users\macsw\OneDrive\Desktop\language_bot\venv\Lib\site-packages\aiogram\dispatcher\dispatcher.py", line 274, in _listen_update
+    return await self.propagate_event(update_type=update_type, event=event, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\macsw\OneDrive\Desktop\language_bot\venv\Lib\site-packages\aiogram\dispatcher\router.py", line 116, in propagate_event
+    return await observer.wrap_outer_middleware(_wrapped, event=event, data=kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\macsw\OneDrive\Desktop\language_bot\venv\Lib\site-packages\aiogram\dispatcher\router.py", line 111, in _wrapped
+    return await self._propagate_event(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\macsw\OneDrive\Desktop\language_bot\venv\Lib\site-packages\aiogram\dispatcher\router.py", line 135, in _propagate_event
+    response = await router.propagate_event(update_type=update_type, event=event, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\macsw\OneDrive\Desktop\language_bot\venv\Lib\site-packages\aiogram\dispatcher\router.py", line 116, in propagate_event
+    return await observer.wrap_outer_middleware(_wrapped, event=event, data=kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\macsw\OneDrive\Desktop\language_bot\venv\Lib\site-packages\aiogram\dispatcher\router.py", line 111, in _wrapped
+    return await self._propagate_event(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\macsw\OneDrive\Desktop\language_bot\venv\Lib\site-packages\aiogram\dispatcher\router.py", line 128, in _propagate_event
+    response = await observer.trigger(event, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\macsw\OneDrive\Desktop\language_bot\venv\Lib\site-packages\aiogram\dispatcher\event\telegram.py", line 124, in trigger
+    return await wrapped_inner(event, kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\macsw\OneDrive\Desktop\language_bot\venv\Lib\site-packages\aiogram\dispatcher\event\handler.py", line 42, in call
+    return await wrapped()
+           ^^^^^^^^^^^^^^^
+  File "C:\Users\macsw\OneDrive\Desktop\language_bot\handlers\lesson_handlers.py", line 57, in answer_check
+    await lesson_in_progress(callback_query, state)
+  File "C:\Users\macsw\OneDrive\Desktop\language_bot\services\lesson_services.py", line 50, in lesson_in_progress
+    await update_user_obj(user)
+  File "C:\Users\macsw\OneDrive\Desktop\language_bot\data_base\users.py", line 169, in update_user_obj
+    cur.execute('UPDATE UserBase SET user=? WHERE id=?',
+sqlite3.OperationalError: database is locked
+dispatcher.py:171 #INFO     [2023-08-17 17:01:47,356] - aiogram.event - Update id=126184312 is handled. Duration 5829 ms by bot id=5658537585
+cannes valise geo- radium humanness fifteenth understrength beeper writing-pad explain astigmatizer incitement Aesop paint on hydrophobic
+cannes Канн, Канны, каннский
+Канн, Канны, каннский
+dispatcher.py:171 #INFO     [2023-08-17 17:01:47,886] - aiogram.event - Update id=126184314 is handled. Duration 530 ms by bot id=5658537585
+valise чемодан, саквояж, ранец, переметная сума, складная дорожная сумка
+чемодан, саквояж, ранец, переметная сума, складная дорожная сумка
+dispatcher.py:171 #INFO     [2023-08-17 17:01:55,404] - aiogram.event - Update id=126184315 is handled. Duration 250 ms by bot id=5658537585
+geo- в сложных словах имеет значение
+в сложных словах имеет значение
+dispatcher.py:171 #INFO     [2023-08-17 17:01:56,985] - aiogram.event - Update id=126184316 is handled. Duration 250 ms by bot id=5658537585
+dispatcher.py:171 #INFO     [2023-08-17 17:02:06,605] - aiogram.event - Update id=126184317 is handled. Duration 219 ms by bot id=5658537585

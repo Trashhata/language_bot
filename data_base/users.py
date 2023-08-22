@@ -1,8 +1,4 @@
-from external_services.get_info import get_info
-import sqlite3
-import pickle
-
-from collections import namedtuple
+from external_services.get_random_word import Word
 
 
 class WordExistError(Exception):
@@ -19,6 +15,7 @@ class Lesson:
     def __init__(self, words: list):
         self.__words = iter(words)
         self.__right_answer = None
+        self.__words_backup: list[Word] = [choice.right_answer for choice in words]
 
     @property
     def words(self):
@@ -27,6 +24,10 @@ class Lesson:
     @property
     def right_answer(self):
         return self.__right_answer
+
+    @property
+    def words_backup(self):
+        return self.__words_backup
 
     def __call__(self, *args, **kwargs):
         try:
@@ -48,14 +49,14 @@ class User:
         self.__id: int = student_data['id']
         self.__name: str = student_data['name']
         self.__age: int = student_data['age']
-        # url of user photo
+        # telegram id of user photo
         self.__photo: str = student_data['photo']
 
         if 'words' not in student_data.keys():
-            self.__words: dict[str, str] = dict()
+            self.__words: dict[str, Word] = dict()
 
         else:
-            self.__words: dict[str, str] = student_data['words']
+            self.__words: dict[str, Word] = student_data['words']
 
         # executed lesson
         self.__current_lesson: Lesson | None = None
@@ -104,9 +105,9 @@ class User:
     def lesson(self, lesson):
         self.__current_lesson = lesson
 
-    def add_word(self, addable: str):
-        if not self.__words.get(addable):
-            self.__words[addable] = get_info()
+    def add_word(self, addable: Word):
+        if not self.__words.get(addable.word):
+            self.__words[addable.word] = addable
             return True
         else:
             raise WordExistError('Word already in base.')
@@ -123,45 +124,3 @@ class User:
             self.__words[word]['learned'] = learned
         except KeyError:
             raise WordExistError("Word doesn't exist.")
-
-
-async def initiate_user_base():
-    con = sqlite3.connect('user_base.db')
-    cur = con.cursor()
-
-    cur.execute('create table if not exists UserBase (id int, user text, UNIQUE(id, user))')
-
-    con.commit()
-
-
-async def write_into_base(user_info: dict):
-    con = sqlite3.connect('user_base.db')
-    cur = con.cursor()
-
-    try:
-        cur.execute(f"""
-            INSERT INTO UserBase (id, user) 
-            VALUES (?, ?)
-        """, (user_info['id'], pickle.dumps(User(user_info))))
-
-        con.commit()
-
-    except sqlite3.IntegrityError as e:
-        print('Registration failed, user already exists.')
-
-
-async def get_from_base(user_id: int) -> User:
-    con = sqlite3.connect('user_base.db')
-    cur = con.cursor()
-
-    return pickle.loads(cur.execute('SELECT user FROM UserBase WHERE id = ?',
-                                    (user_id,)).fetchone()[0])
-
-
-async def update_user_obj(new_user_obj: User) -> None:
-    con = sqlite3.connect('user_base.db')
-    cur = con.cursor()
-
-    cur.execute('UPDATE UserBase SET user=? WHERE id=?',
-                (pickle.dumps(new_user_obj), new_user_obj.id))
-    con.commit()

@@ -1,4 +1,4 @@
-from aiogram.types import Message, CallbackQuery
+from aiogram.types import Message, CallbackQuery, PhotoSize
 from aiogram.filters import CommandStart, StateFilter
 from aiogram import Router, F
 from aiogram.fsm.context import FSMContext
@@ -8,8 +8,8 @@ import keyboards.keyboards
 from states.states import StudentState
 
 from lexicon.lexicon_en import REGISTRATION
-from data_base.users import write_into_base
-
+from data_base.sqlite_base import write_into_base
+from filters.user_info_filters import age_filter
 
 router = Router()
 
@@ -36,7 +36,7 @@ async def incorrect_name_enter(message: Message):
 
 
 @router.message(StateFilter(StudentState.AGE_SETTING),
-                lambda answer: answer.text.isdigit() and 5 <= int(answer.text) <= 110)
+                age_filter)
 async def correct_age_enter(message: Message, state: FSMContext):
     await state.update_data(age=int(message.text))
     await state.set_state(StudentState.PHOTO_SETTING)
@@ -54,7 +54,9 @@ async def incorrect_age_enter(message: Message):
 async def correct_photo_upload(message: Message, state: FSMContext):
     await message.answer(text=REGISTRATION['REGISTRATION_FINISHED'])
 
-    await state.update_data(photo=message.photo)
+    photo: PhotoSize = message.photo[0]
+
+    await state.update_data(photo=photo.file_id)
     await state.set_state(StudentState.REGISTERED)
 
     user_id, data = message.from_user.id, await state.get_data()

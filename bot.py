@@ -5,9 +5,9 @@ from aiogram import Bot, Dispatcher
 
 from config_data.config import Config, load_config
 from states.states import storage
-from handlers import other_handlers, user_handlers_registered, user_registration, lesson_handlers
+from handlers import other_handlers, user_handlers_registered, user_registration, lesson_handlers, options_handlers
 from keyboards.main_menu import set_main_menu
-from data_base.users import initiate_user_base
+from data_base.sqlite_base import initiate_user_base
 
 # logger initiation
 logger = logging.getLogger(__name__)
@@ -39,6 +39,7 @@ async def main():
     dp.include_router(user_registration.router)
     dp.include_router(user_handlers_registered.router)
     dp.include_router(lesson_handlers.router)
+    dp.include_router(options_handlers.router)
     dp.include_router(other_handlers.router)
 
     # Skip stocked updates
@@ -48,4 +49,3 @@ async def main():
 
 if __name__ == '__main__':
     asyncio.run(main())
-

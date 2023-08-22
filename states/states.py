@@ -13,6 +13,15 @@ class StudentState(StatesGroup):
     WORDS_AMOUNT_CHOICE = State()
     IN_LESSON = State()
     LESSON_IS_OVER = State()
+    # options menu states
+    IN_OPTIONS = State()
+    USER_INFO_MENU = State()
+    USER_INFO_CHANGE = State()
+    WORD_LIBRARY = State()
+    # user info change states
+    CHANGE_NAME = State()
+    CHANGE_AGE = State()
+    CHANGE_PHOTO = State()
 
 
 storage: RedisStorage = RedisStorage(redis=redis.Redis(host='localhost',
