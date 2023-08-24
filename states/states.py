@@ -18,6 +18,10 @@ class StudentState(StatesGroup):
     USER_INFO_MENU = State()
     USER_INFO_CHANGE = State()
     WORD_LIBRARY = State()
+    CLEAR_LIBRARY = State()
+    # word add states
+    ENTER_NEW_WORD = State()
+    ENTER_NEW_WORD_TRANSLATION = State()
     # user info change states
     CHANGE_NAME = State()
     CHANGE_AGE = State()

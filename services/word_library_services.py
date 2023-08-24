@@ -1,4 +1,4 @@
-from data_base.sqlite_base import get_from_base
+from data_base.sqlite_base import get_from_base, update_user_obj
 
 from external_services.get_random_word import Word
 
@@ -33,5 +33,15 @@ async def world_library_page(user_id: int, page_number: int = 1) -> list[Word] |
             current_page.append(word)
 
     return current_page
+
+
+# clear user word library by user id
+async def clear_library(user_id: int):
+    user = await get_from_base(user_id)
+    user.clear_library()
+
+    await update_user_obj(user)
+
+
 
 

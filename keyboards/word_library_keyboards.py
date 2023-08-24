@@ -35,8 +35,12 @@ EDIT_BUTTON: InlineKeyboardButton = InlineKeyboardButton(text=ACCOUNT_SETTINGS['
 CLEAR_BUTTON: InlineKeyboardButton = InlineKeyboardButton(text=ACCOUNT_SETTINGS['WORD_LIBRARY']['CLEAR'],
                                                           callback_data='clear_library')
 
+ADD_WORD_BUTTON: InlineKeyboardButton = InlineKeyboardButton(text=ACCOUNT_SETTINGS['WORD_LIBRARY']['ADD'],
+                                                             callback_data='new_word')
+
 LIBRARY_MAIN_K_B: InlineKeyboardMarkup = InlineKeyboardMarkup(inline_keyboard=[[EDIT_BUTTON],
-                                                                               [CLEAR_BUTTON]])
+                                                                               [CLEAR_BUTTON],
+                                                                               [ADD_WORD_BUTTON]],)
 
 
 # generates page of user word library
@@ -44,9 +48,6 @@ async def generate_library_page(user_id: int, page: int) -> InlineKeyboardMarkup
     words: list[Word] = await world_library_page(user_id, page)
 
     markup: list[list[InlineKeyboardButton]] = []
-
-    # if words is False:
-    #     words: list[Word] = await world_library_page(user_id, page - 1)
 
     # each row (word, translation, learned/not learned), delete button below
     for word in words:
@@ -97,12 +98,3 @@ async def generate_library_page(user_id: int, page: int) -> InlineKeyboardMarkup
     current_page_k_b: InlineKeyboardMarkup = InlineKeyboardMarkup(inline_keyboard=markup)
 
     return current_page_k_b
-
-
-
-
-
-
-
-
-

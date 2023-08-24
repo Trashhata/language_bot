@@ -34,15 +34,6 @@ MAIN_OPTIONS_PAGE_LIBRARY: ReplyKeyboardMarkup = ReplyKeyboardMarkup(keyboard=[(
                                                                      one_time_keyboard=True,
                                                                      resize_keyboard=True)
 
-# LIBRARY CONTROL
-
-CLEAR_BUTTON: KeyboardButton = KeyboardButton(text=ACCOUNT_SETTINGS['WORD_LIBRARY']['CLEAR'])
-EDITOR_BUTTON: KeyboardButton = KeyboardButton(text=ACCOUNT_SETTINGS['WORD_LIBRARY']['EDIT'])
-
-LIBRARY_KEYBOARD: ReplyKeyboardMarkup = ReplyKeyboardMarkup(keyboard=[(CLEAR_BUTTON, EDITOR_BUTTON)],
-                                                            one_time_keyboard=True,
-                                                            resize_keyboard=True)
-
 
 # SKIP KEYBOARD
 

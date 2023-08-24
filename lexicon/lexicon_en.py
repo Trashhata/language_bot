@@ -6,7 +6,8 @@ MAIN_LEXICON: dict[str: str] = {
     'OPTIONS': 'Account settings',
     'NEW': 'New words',
     'OLD': 'Repetition',
-    'BACK': 'Back'
+    'BACK': 'Back',
+    'CANCEL': 'Cancel'
 }
 
 LEXICON_COMMANDS: dict[str, str] = {
@@ -87,6 +88,11 @@ ACCOUNT_SETTINGS: dict[str: dict | str] = {
                      'NOT_LEARNED': '❎',
                      'NEXT': '➡️',
                      'NEXT_DESCR': 'Next page of the library.',
-                     'PREV': '⬅️'
+                     'PREV': '⬅️',
+                     'ADD': 'Add new word.',
+                     'WORD': 'Enter the new word, please.',
+                     'TRANSLATION': 'Enter the word translation, please',
+                     'WORD_EXIST': 'The word already exists.',
+                     'WORD_ADDED': 'Word was successfully added.'
                      }
 }

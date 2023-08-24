@@ -112,6 +112,13 @@ class User:
         else:
             raise WordExistError('Word already in base.')
 
+    def get_word(self, searchable: str) -> bool:
+        if not self.__words.get(searchable):
+            raise WordExistError('There is not such a word in base.')
+
+        else:
+            return True
+
     def del_word(self, deletable: str):
         try:
             self.__words.pop(deletable)
@@ -126,4 +133,7 @@ class User:
             raise WordExistError("Word doesn't exist.")
 
     def sort_word_base(self):
-        self.__words = {k: self.__words[k] for k in sorted(self.__words.keys())}
+        self.__words = {k: self.__words[k] for k in sorted(self.__words.keys(), key=str.lower)}
+
+    def clear_library(self):
+        self.__words = dict()
