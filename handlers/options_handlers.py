@@ -5,7 +5,10 @@ from aiogram.fsm.context import FSMContext
 
 from states.states import StudentState
 from lexicon.lexicon_en import ACCOUNT_SETTINGS, REGISTRATION
-from keyboards.options_keyboards import LIBRARY_MAIN_K_B, UserInfoChangeCallback
+
+from keyboards.options_keyboards import UserInfoChangeCallback
+from keyboards.word_library_keyboards import LIBRARY_MAIN_K_B
+
 from services.options_services import change_info, answer_with_profile_info
 from filters.user_info_filters import age_filter
 from handlers.user_handlers_registered import process_options_command
@@ -97,4 +100,3 @@ async def photo_edit_correct(message: Message, state: FSMContext):
 @router.message(StateFilter(StudentState.CHANGE_PHOTO))
 async def age_edit_incorrect(message: Message):
     await message.answer(REGISTRATION['INCORRECT_DATA'])
-

@@ -23,7 +23,7 @@ MAIN_MENU_LEXICON: dict[str, str] = {
     'START_MESSAGE': '''Welcome to the word learning bot!
 To start new lesson push /new_lesson
 To start repetition push /repetition
-To enter setting push /setting
+To enter setting push /settings
 For help push /help''',
     'HELP_MESSAGE': '''This bot was created for a language learning.
 Tap "new lesson" command for learning new words.
@@ -78,13 +78,15 @@ ACCOUNT_SETTINGS: dict[str: dict | str] = {
     'LIBRARY': 'Words library settings',
     'WORD_LIBRARY': {'INITIALIZATION': 'Choice any option below:',
                      'EDIT': 'Edit word library.',
-                     'WEB_PAGE': 'Open Wiki Dictionary page.',
-                     'DELETE': 'Delete.',
-                     'MARK': 'Mark/unamark as learned.',
+                     'DELETE': '❌',
+                     'DESCR': 'Use ✅ and ❎ to mark as learned/not learned.\nUse ❌ to delete word.',
                      'CLEAR': 'Clear library.',
                      'CONFIRMATION': 'Enter "CLEAR LIBRARY" to confirm.',
                      'SUCCESS': 'Library cleaned.',
-                     'NEXT': '>>',
-                     'PREV': '<<'
+                     'LEARNED': '✅',
+                     'NOT_LEARNED': '❎',
+                     'NEXT': '➡️',
+                     'NEXT_DESCR': 'Next page of the library.',
+                     'PREV': '⬅️'
                      }
 }

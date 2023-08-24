@@ -9,6 +9,7 @@ from random import sample
 class Word:
     word: str
     translation: str
+    learned: bool = False
 
 
 # origin - origin language, res - result language

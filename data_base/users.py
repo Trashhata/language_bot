@@ -90,8 +90,8 @@ class User:
         self.__photo = new_photo
 
     @property
-    def words(self) -> iter:
-        return iter((word, info) for word, info in sorted(self.__words.items()))
+    def words(self) -> dict[str, Word]:
+        return self.__words
 
     @property
     def lesson(self):
@@ -112,15 +112,18 @@ class User:
         else:
             raise WordExistError('Word already in base.')
 
-    def del_word(self, delitable: str):
+    def del_word(self, deletable: str):
         try:
-            self.__words.pop(delitable)
+            self.__words.pop(deletable)
             return True
         except KeyError:
             raise WordExistError("Word doesn't exist.")
 
     def learned(self, word: str, learned: bool):
         try:
-            self.__words[word]['learned'] = learned
+            self.__words[word].learned = learned
         except KeyError:
             raise WordExistError("Word doesn't exist.")
+
+    def sort_word_base(self):
+        self.__words = {k: self.__words[k] for k in sorted(self.__words.keys())}

@@ -36,8 +36,6 @@ async def start_lesson(amount: int, user_id: int, repetition: bool = False):
     else:
         lesson_words: list[Word] = get_new_words(amount)
 
-    print(*(i.word for i in lesson_words))
-
     user = await get_from_base(user_id)
     user.lesson = Lesson([get_choices(word, sample([i for i in lesson_words if i.word != word.word], 3)) for word in lesson_words])
     await update_user_obj(user)
@@ -77,6 +75,8 @@ async def end_lesson(message: CallbackQuery, state):
         except WordExistError as error:
             print(error)
             continue
+
+    user.sort_word_base()
 
     # writes updated user object into base
     await update_user_obj(user)

@@ -5,7 +5,8 @@ from aiogram import Bot, Dispatcher
 
 from config_data.config import Config, load_config
 from states.states import storage
-from handlers import other_handlers, user_handlers_registered, user_registration, lesson_handlers, options_handlers
+from handlers import (other_handlers, user_handlers_registered, user_registration, lesson_handlers, options_handlers,
+                      word_library_handlers)
 from keyboards.main_menu import set_main_menu
 from data_base.sqlite_base import initiate_user_base
 
@@ -40,6 +41,7 @@ async def main():
     dp.include_router(user_handlers_registered.router)
     dp.include_router(lesson_handlers.router)
     dp.include_router(options_handlers.router)
+    dp.include_router(word_library_handlers.router)
     dp.include_router(other_handlers.router)
 
     # Skip stocked updates
