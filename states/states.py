@@ -5,6 +5,7 @@ import redis.asyncio as redis
 
 class StudentState(StatesGroup):
     # registration states
+    LANG_SETTING = State()
     NAME_SETTING = State()
     AGE_SETTING = State()
     PHOTO_SETTING = State()

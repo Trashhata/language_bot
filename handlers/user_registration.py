@@ -19,6 +19,17 @@ async def process_start_command_registration(message: Message, state: FSMContext
     await message.answer(text=REGISTRATION['INITIALIZATION'])
 
     await state.update_data(id=message.from_user.id)
+    await state.set_state(StudentState.LANG_SETTING)
+
+
+@router.callback_query(StateFilter(StudentState.LANG_SETTING),
+                       F.data in ('ru', 'en'))
+async def lang_selected(callback: CallbackQuery, state: FSMContext):
+    await state.update_data(lang=callback.data)
+    await state.update_data(StudentState.NAME_SETTING)
+
+    await callback.message.answer(REGISTRATION['NAME_SELECTION'])
+
     await state.set_state(StudentState.NAME_SETTING)
 
 

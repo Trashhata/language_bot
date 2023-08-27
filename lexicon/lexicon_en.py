@@ -36,7 +36,8 @@ To enter settings tap "settings" command.''',
 }
 
 REGISTRATION: dict[str: str] = {
-    'INITIALIZATION': 'Please enter your name.',
+    'INITIALIZATION': 'Пожалуйста выберите язык.',
+    'NAME_SELECTION': 'Please enter your name.',
     'INCORRECT_NAME': 'The name must contain only letters.',
     'AGE_ENTER': 'Enter your age.',
     'INCORRECT_AGE': 'Age must be a number from 5 to 110.',
@@ -44,7 +45,9 @@ REGISTRATION: dict[str: str] = {
     'SKIP': 'Skip',
     'TAP_TO_SKIP': 'Tap me!',
     'INCORRECT_DATA': 'The avatar must be an image.',
-    'REGISTRATION_FINISHED': 'Successful registration.'
+    'REGISTRATION_FINISHED': 'Successful registration.',
+    'RU': 'Русский.',
+    'EN': 'English.'
 }
 
 LESSON_LEXICON: dict[str: str] = {

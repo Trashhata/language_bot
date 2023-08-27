@@ -41,3 +41,15 @@ SKIP_BUTTON: InlineKeyboardButton = InlineKeyboardButton(text=REGISTRATION['SKIP
                                                          callback_data='Skip.')
 
 SKIP_KEYBOARD: InlineKeyboardMarkup = InlineKeyboardMarkup(inline_keyboard=[[SKIP_BUTTON]])
+
+
+# LANGUAGE SELECTION KEYBOARD
+
+RU_BUTTON: InlineKeyboardButton = InlineKeyboardButton(text=REGISTRATION['RU'],
+                                                       callback_data='ru')
+
+EN_BUTTON: InlineKeyboardButton = InlineKeyboardButton(text=REGISTRATION['EN'],
+                                                       callback_data='en')
+
+LANG_SELECTION_K_B: InlineKeyboardMarkup = InlineKeyboardMarkup(inline_keyboard=[[RU_BUTTON, EN_BUTTON]])
+

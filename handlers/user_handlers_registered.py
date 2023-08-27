@@ -27,19 +27,18 @@ async def process_help_command(message: Message):
 
 
 # HANDLER FOR NEW WORDS LEARNING
-@router.message(Command(commands='new_lesson'), StateFilter(StudentState.REGISTERED))
+@router.message(Command(commands=('new_lesson', 'repetition')), StateFilter(StudentState.REGISTERED))
 async def process_new_lesson_command(message: Message, state: FSMContext):
     await message.answer(MAIN_MENU_LEXICON['LESSON_START'])
+
+    if message.text == '/new_lesson':
+        await state.update_data(lesson_type='new_lesson')
+    elif message.text == '/repetition':
+        await state.update_data(lesson_type='repetition')
 
     await state.set_state(StudentState.WORDS_AMOUNT_CHOICE)
     await message.answer(text=LESSON_LEXICON['AMOUNT_SELECTION'],
                          reply_markup=lesson_keyboard.AMOUNT_SELECTION_KEYBOARD)
-
-
-# HANDLER FOR REPETITION
-@router.message(Command(commands='repetition'), StateFilter(StudentState.REGISTERED))
-async def process_repetition_command(message: Message):
-    await message.answer(MAIN_MENU_LEXICON['LESSON_START'])
 
 
 # HANDLER FOR OPTIONS

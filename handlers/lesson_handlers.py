@@ -22,10 +22,12 @@ async def right_amount_selected(callback_query: CallbackQuery, callback_data: Am
     await callback_query.answer(LESSON_LEXICON['LESSON_STARTING'])
     await state.set_state(StudentState.IN_LESSON)
 
+    repetition: bool = False if (await state.get_data())['lesson_type'] == 'new_lesson' else True
+
     # starts lesson
     await start_lesson(amount=int(callback_data.amount),
                        user_id=callback_query.from_user.id,
-                       repetition=False)
+                       repetition=repetition)
 
     try:
         # first word showing

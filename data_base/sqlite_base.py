@@ -1,45 +1,49 @@
-import sqlite3
+import aiosqlite
 import pickle
 from data_base.users import User
 
 
 async def initiate_user_base():
-    con = sqlite3.connect('user_base.db')
-    cur = con.cursor()
+    con = await aiosqlite.connect('user_base.db')
+    await con.execute('create table if not exists UserBase (id int, user text, language text, UNIQUE(id, user))')
 
-    cur.execute('create table if not exists UserBase (id int, user text, UNIQUE(id, user))')
-
-    con.commit()
+    await con.commit()
 
 
 async def write_into_base(user_info: dict):
-    con = sqlite3.connect('user_base.db')
-    cur = con.cursor()
+    con = await aiosqlite.connect('user_base.db')
 
     try:
-        cur.execute(f"""
-            INSERT INTO UserBase (id, user) 
-            VALUES (?, ?)
-        """, (user_info['id'], pickle.dumps(User(user_info))))
+        await con.execute(f"""
+            INSERT INTO UserBase (id, user, language) 
+            VALUES (?, ?, ?)
+        """, (user_info['id'], pickle.dumps(User(user_info)), user_info['lang']))
 
-        con.commit()
+        await con.commit()
 
-    except sqlite3.IntegrityError:
+    except aiosqlite.IntegrityError:
         print('Registration failed, user already exists.')
 
 
 async def get_from_base(user_id: int) -> User:
-    con = sqlite3.connect('user_base.db')
-    cur = con.cursor()
+    con = await aiosqlite.connect('user_base.db')
 
-    return pickle.loads(cur.execute('SELECT user FROM UserBase WHERE id = ?',
-                                    (user_id,)).fetchone()[0])
+    return pickle.loads((await (await con.execute('SELECT user FROM UserBase WHERE id = ?',
+                                                  (user_id,))).fetchone())[0])
 
 
 async def update_user_obj(new_user_obj: User) -> None:
-    con = sqlite3.connect('user_base.db')
-    cur = con.cursor()
+    con = await aiosqlite.connect('user_base.db')
 
-    cur.execute('UPDATE UserBase SET user=? WHERE id=?',
-                (pickle.dumps(new_user_obj), new_user_obj.id))
-    con.commit()
+    await con.execute('UPDATE UserBase SET user=? WHERE id=?',
+                      (pickle.dumps(new_user_obj), new_user_obj.id))
+    await con.commit()
+
+
+async def get_lang(user_id: int) -> str:
+    con = await aiosqlite.connect('user_base.db')
+
+    lang = (await (await con.execute('SELECT language FROM UserBase WHERE id = ?',
+                                     (user_id,))).fetchone())[0]
+
+    return lang

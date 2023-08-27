@@ -26,7 +26,9 @@ def get_choices(right_answer: Word, collection: list) -> Choices:
 
 # takes words from user dictionary
 async def repetition_words(user_id: int, amount: int) -> list:
-    return sample([i for i in (await get_from_base(user_id)).words if not i[1]['learned']], amount)
+    words: dict = (await get_from_base(user_id)).words
+
+    return sample([i for i in words.values() if not i.learned], amount)
 
 
 # lesson logic. Generates words for lesson.
@@ -60,23 +62,25 @@ async def lesson_in_progress(message: Message | CallbackQuery, state: FSMContext
 
 
 # lesson completion
-async def end_lesson(message: CallbackQuery, state):
+async def end_lesson(message: CallbackQuery, state: FSMContext):
     # keyboard for lesson repeat
     await message.message.answer(text=LESSON_LEXICON['LESSON_IS_OVER'], reply_markup=repeat_lesson_or_not())
     await state.set_state(StudentState.LESSON_IS_OVER)
 
-    user = await get_from_base(message.from_user.id)
+    # adds new words in base if not repetition
+    if (await state.get_data())['lesson_type'] == 'new_lesson':
+        user = await get_from_base(message.from_user.id)
 
-    # adds words into user dictionary
-    for w in user.lesson.words_backup:
-        try:
-            user.add_word(w)
+        # adds words into user dictionary
+        for w in user.lesson.words_backup:
+            try:
+                user.add_word(w)
 
-        except WordExistError as error:
-            print(error)
-            continue
+            except WordExistError as error:
+                print(error)
+                continue
 
-    user.sort_word_base()
+        user.sort_word_base()
 
-    # writes updated user object into base
-    await update_user_obj(user)
+        # writes updated user object into base
+        await update_user_obj(user)

@@ -8,12 +8,10 @@ import pprint
 # yields words for each page of library keyboard
 async def world_library_page(user_id: int, page_number: int = 1) -> list[Word] | bool:
     word_base: dict[str, Word] = (await get_from_base(user_id)).words
-
-    pprint.pprint(word_base)
-
     words_amount = len(word_base)
 
-    print(words_amount)
+    # pprint.pprint(word_base)
+    # print(words_amount)
 
     if words_amount % 7 == 0:
         pages_amount = words_amount // 7
