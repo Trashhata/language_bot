@@ -43,6 +43,8 @@ async def update_user_obj(new_user_obj: User) -> None:
 async def get_lang(user_id: int) -> str:
     con = await aiosqlite.connect('user_base.db')
 
+    # print(user_id)
+
     lang = (await (await con.execute('SELECT language FROM UserBase WHERE id = ?',
                                      (user_id,))).fetchone())[0]
 

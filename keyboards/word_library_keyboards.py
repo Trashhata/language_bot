@@ -1,7 +1,7 @@
 from aiogram.utils.keyboard import InlineKeyboardButton, InlineKeyboardMarkup
 from aiogram.filters.callback_data import CallbackData
 
-from lexicon.lexicon_en import ACCOUNT_SETTINGS
+from lexicon.lang_selection import get_phrase
 
 from external_services.get_random_word import Word
 from services.word_library_services import world_library_page
@@ -29,18 +29,19 @@ class CustomCallbackTurnPage(CallbackData, prefix='turn_page'):
 
 
 # library settings menu
-EDIT_BUTTON: InlineKeyboardButton = InlineKeyboardButton(text=ACCOUNT_SETTINGS['WORD_LIBRARY']['EDIT'],
-                                                         callback_data='edit_library')
+async def library_settings_k_b(user_id: int):
+    edit_button: InlineKeyboardButton = InlineKeyboardButton(text=await get_phrase(user_id, 'EDIT'),
+                                                             callback_data='edit_library')
 
-CLEAR_BUTTON: InlineKeyboardButton = InlineKeyboardButton(text=ACCOUNT_SETTINGS['WORD_LIBRARY']['CLEAR'],
-                                                          callback_data='clear_library')
+    clear_button: InlineKeyboardButton = InlineKeyboardButton(text=await get_phrase(user_id, 'CLEAR'),
+                                                              callback_data='clear_library')
 
-ADD_WORD_BUTTON: InlineKeyboardButton = InlineKeyboardButton(text=ACCOUNT_SETTINGS['WORD_LIBRARY']['ADD'],
-                                                             callback_data='new_word')
+    add_word_button: InlineKeyboardButton = InlineKeyboardButton(text=await get_phrase(user_id, 'ADD'),
+                                                                 callback_data='new_word')
 
-LIBRARY_MAIN_K_B: InlineKeyboardMarkup = InlineKeyboardMarkup(inline_keyboard=[[EDIT_BUTTON],
-                                                                               [CLEAR_BUTTON],
-                                                                               [ADD_WORD_BUTTON]],)
+    return InlineKeyboardMarkup(inline_keyboard=[[edit_button],
+                                                 [clear_button],
+                                                 [add_word_button]],)
 
 
 # generates page of user word library
@@ -56,16 +57,16 @@ async def generate_library_page(user_id: int, page: int) -> InlineKeyboardMarkup
         word_translation: InlineKeyboardButton = InlineKeyboardButton(text=word.translation.split(',')[0],
                                                                       callback_data='pass')
         if word.learned:
-            learned, learned_callback_data = ACCOUNT_SETTINGS['WORD_LIBRARY']['LEARNED'], False
+            learned, learned_callback_data = await get_phrase(user_id, 'LEARNED'), False
         else:
-            learned, learned_callback_data = ACCOUNT_SETTINGS['WORD_LIBRARY']['NOT_LEARNED'], True
+            learned, learned_callback_data = await get_phrase(user_id, 'NOT_LEARNED'), True
 
         c_b: CustomCallbackWordLearned = CustomCallbackWordLearned(word=word.word,
                                                                    option=learned_callback_data,
                                                                    current_page=page)
 
         learned_button: InlineKeyboardButton = InlineKeyboardButton(text=learned, callback_data=c_b.pack())
-        delete_button: InlineKeyboardButton = InlineKeyboardButton(text=ACCOUNT_SETTINGS['WORD_LIBRARY']['DELETE'],
+        delete_button: InlineKeyboardButton = InlineKeyboardButton(text=await get_phrase(user_id, 'DELETE'),
                                                                    callback_data=CustomCallbackWordDelete(
                                                                        word=word.word,
                                                                        current_page=page
@@ -76,7 +77,7 @@ async def generate_library_page(user_id: int, page: int) -> InlineKeyboardMarkup
 
     # check for first page
     if page > 1:
-        prev_button = InlineKeyboardButton(text=ACCOUNT_SETTINGS['WORD_LIBRARY']['PREV'],
+        prev_button = InlineKeyboardButton(text=await get_phrase(user_id, 'PREV'),
                                            callback_data=CustomCallbackTurnPage(page_num=page - 1).pack())
     else:
         prev_button = InlineKeyboardButton(text='',
@@ -87,7 +88,7 @@ async def generate_library_page(user_id: int, page: int) -> InlineKeyboardMarkup
         next_button = InlineKeyboardButton(text='',
                                            callback_data='pass')
     else:
-        next_button = InlineKeyboardButton(text=ACCOUNT_SETTINGS['WORD_LIBRARY']['NEXT'],
+        next_button = InlineKeyboardButton(text=await get_phrase(user_id, 'NEXT'),
                                            callback_data=CustomCallbackTurnPage(page_num=page + 1).pack())
 
     current_page_button = InlineKeyboardButton(text=f'Page {page}', callback_data='pass')

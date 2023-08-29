@@ -4,10 +4,10 @@ from aiogram.filters.state import State, StateFilter
 from aiogram.fsm.context import FSMContext
 
 from states.states import StudentState
-from lexicon.lexicon_en import ACCOUNT_SETTINGS, REGISTRATION
+from lexicon.lang_selection import get_phrase
 
-from keyboards.options_keyboards import UserInfoChangeCallback
-from keyboards.word_library_keyboards import LIBRARY_MAIN_K_B
+from keyboards.options_keyboards import UserInfoChangeCallback, options_k_b
+from keyboards.word_library_keyboards import library_settings_k_b
 
 from services.options_services import change_info, answer_with_profile_info
 from filters.user_info_filters import age_filter
@@ -31,8 +31,8 @@ async def user_info_menu_selected(callback: CallbackQuery, state: FSMContext):
 async def word_library_selected(callback: CallbackQuery, state: FSMContext):
     await state.set_state(StudentState.WORD_LIBRARY)
 
-    await callback.message.answer(text=ACCOUNT_SETTINGS['WORD_LIBRARY']['INITIALIZATION'],
-                                  reply_markup=LIBRARY_MAIN_K_B)
+    await callback.message.answer(text=await get_phrase(callback.from_user.id, 'LIBRARY_EDIT_INITIALIZATION'),
+                                  reply_markup=await library_settings_k_b(callback.from_user.id))
 
 
 # handler for user info change
@@ -44,9 +44,9 @@ async def user_info_change(callback: CallbackQuery,
 
     # the dict of tuples with states and texts for answer
     state_and_answer_param: dict[str, tuple[State, str]] = {
-        'name': (StudentState.CHANGE_NAME, ACCOUNT_SETTINGS['USER_INFORMATION']['EDITING']['EDIT_NAME']),
-        'age': (StudentState.CHANGE_AGE, ACCOUNT_SETTINGS['USER_INFORMATION']['EDITING']['EDIT_AGE']),
-        'photo': (StudentState.CHANGE_PHOTO, ACCOUNT_SETTINGS['USER_INFORMATION']['EDITING']['EDIT_AVATAR'])
+        'name': (StudentState.CHANGE_NAME, await get_phrase(callback.from_user.id, 'EDIT_NAME')),
+        'age': (StudentState.CHANGE_AGE, await get_phrase(callback.from_user.id, 'EDIT_AGE')),
+        'photo': (StudentState.CHANGE_PHOTO, await get_phrase(callback.from_user.id, 'EDIT_AVATAR')),
     }
 
     await state.set_state(state_and_answer_param[callback_data.option][0])
@@ -59,7 +59,13 @@ async def user_info_change(callback: CallbackQuery,
 @router.callback_query(StateFilter(StudentState.USER_INFO_MENU),
                        F.data == 'back')
 async def return_to_setting_menu(callback: CallbackQuery, state: FSMContext):
-    await process_options_command(callback.message, state)
+    id_ = callback.from_user.id
+
+    await callback.message.answer(text=await get_phrase(id_, 'SETTINGS_DESCR'))
+
+    await state.set_state(StudentState.IN_OPTIONS)
+    await callback.message.answer(text=await get_phrase(id_, 'MAIN_MENU'),
+                                  reply_markup=await options_k_b(id_))
 
 
 # handler for name editing
@@ -72,7 +78,7 @@ async def name_edit_correct(message: Message, state: FSMContext):
 
 @router.message(StateFilter(StudentState.CHANGE_NAME))
 async def name_edit_incorrect(message: Message):
-    await message.answer(REGISTRATION['INCORRECT_NAME'])
+    await message.answer(await get_phrase(message.from_user.id, 'INCORRECT_NAME'))
 
 
 # handler for age editing
@@ -86,7 +92,7 @@ async def age_edit_correct(message: Message, state: FSMContext):
 
 @router.message(StateFilter(StudentState.CHANGE_NAME))
 async def age_edit_incorrect(message: Message):
-    await message.answer(REGISTRATION['INCORRECT_AGE'])
+    await message.answer(await get_phrase(message.from_user.id, 'INCORRECT_AGE'))
 
 
 # handler for photo editing
@@ -99,4 +105,4 @@ async def photo_edit_correct(message: Message, state: FSMContext):
 
 @router.message(StateFilter(StudentState.CHANGE_PHOTO))
 async def age_edit_incorrect(message: Message):
-    await message.answer(REGISTRATION['INCORRECT_DATA'])
+    await message.answer(await get_phrase(message.from_user.id, 'INCORRECT_DATA'))

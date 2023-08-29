@@ -9,7 +9,7 @@ from data_base.users import User, WordExistError
 from states.states import StudentState
 from keyboards.word_library_keyboards import (generate_library_page, CustomCallbackTurnPage,
                                               CustomCallbackWordLearned, CustomCallbackWordDelete)
-from lexicon.lexicon_en import ACCOUNT_SETTINGS
+from lexicon.lang_selection import get_phrase
 
 router: Router = Router()
 
@@ -18,7 +18,7 @@ router: Router = Router()
 @router.callback_query(StateFilter(StudentState.WORD_LIBRARY),
                        F.data == 'edit_library')
 async def edit_library_func(callback: CallbackQuery):
-    await callback.message.answer(text=ACCOUNT_SETTINGS['WORD_LIBRARY']['DESCR'],
+    await callback.message.answer(text=await get_phrase(callback.from_user.id, 'DESCR'),
                                   reply_markup=await generate_library_page(callback.from_user.id, page=1))
 
 

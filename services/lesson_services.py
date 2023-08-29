@@ -3,7 +3,7 @@ from data_base.sqlite_base import get_from_base, update_user_obj
 from external_services.get_random_word import get_new_words, Word
 from keyboards.lesson_keyboard import choice_keyboard_creation, repeat_lesson_or_not
 from states.states import StudentState
-from lexicon.lexicon_en import LESSON_LEXICON
+from lexicon.lang_selection import get_phrase
 
 from aiogram.types import Message, CallbackQuery
 from aiogram.fsm.context import FSMContext
@@ -39,7 +39,9 @@ async def start_lesson(amount: int, user_id: int, repetition: bool = False):
         lesson_words: list[Word] = get_new_words(amount)
 
     user = await get_from_base(user_id)
-    user.lesson = Lesson([get_choices(word, sample([i for i in lesson_words if i.word != word.word], 3)) for word in lesson_words])
+    user.lesson = Lesson([get_choices(word,
+                                      sample([i for i in lesson_words if i.word != word.word],
+                                             3)) for word in lesson_words])
     await update_user_obj(user)
 
 
@@ -64,7 +66,8 @@ async def lesson_in_progress(message: Message | CallbackQuery, state: FSMContext
 # lesson completion
 async def end_lesson(message: CallbackQuery, state: FSMContext):
     # keyboard for lesson repeat
-    await message.message.answer(text=LESSON_LEXICON['LESSON_IS_OVER'], reply_markup=repeat_lesson_or_not())
+    await message.message.answer(text=await get_phrase(message.from_user.id, 'LESSON_IS_OVER'),
+                                 reply_markup=await repeat_lesson_or_not(message.from_user.id))
     await state.set_state(StudentState.LESSON_IS_OVER)
 
     # adds new words in base if not repetition

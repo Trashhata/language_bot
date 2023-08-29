@@ -1,10 +1,11 @@
 from aiogram.utils.keyboard import InlineKeyboardButton, InlineKeyboardMarkup
 
-from lexicon.lexicon_en import MAIN_LEXICON
+from lexicon.lang_selection import get_phrase
 
 
-# cancel keyboard
-CANCEL_BUTTON: InlineKeyboardButton = InlineKeyboardButton(text=MAIN_LEXICON['CANCEL'],
-                                                           callback_data='cancel')
+async def create_cancel_cb(user_id: int) -> InlineKeyboardMarkup:
+    # cancel keyboard
+    cancel_button: InlineKeyboardButton = InlineKeyboardButton(text=await get_phrase(user_id, 'CANCEL'),
+                                                               callback_data='cancel')
 
-CANCEL_K_B: InlineKeyboardMarkup = InlineKeyboardMarkup(inline_keyboard=[[CANCEL_BUTTON]])
+    return InlineKeyboardMarkup(inline_keyboard=[[cancel_button]])

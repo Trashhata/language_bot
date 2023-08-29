@@ -1,7 +1,7 @@
 from aiogram.utils.keyboard import InlineKeyboardButton, InlineKeyboardMarkup
 from aiogram.filters.callback_data import CallbackData
 
-from lexicon.lexicon_en import ACCOUNT_SETTINGS, MAIN_LEXICON
+from lexicon.lang_selection import get_phrase
 
 
 # class for userinfo menu callback
@@ -10,36 +10,38 @@ class UserInfoChangeCallback(CallbackData, prefix='user_info'):
     option: str
 
 
-BACK_BUTTON: InlineKeyboardButton = InlineKeyboardButton(text=MAIN_LEXICON['BACK'],
-                                                         callback_data='back')
+# options menu keyboard
+async def options_k_b(user_id: int):
+    user_info_button: InlineKeyboardButton = InlineKeyboardButton(text=await get_phrase(user_id, 'USER'),
+                                                                  callback_data='user_info')
+    world_library_button: InlineKeyboardButton = InlineKeyboardButton(text=await get_phrase(user_id, 'LIBRARY'),
+                                                                      callback_data='library')
 
-# options main menu keyboard
-USER_INFO_BUTTON: InlineKeyboardButton = InlineKeyboardButton(text=ACCOUNT_SETTINGS['USER'],
-                                                              callback_data='user_info')
-WORD_LIBRARY_BUTTON: InlineKeyboardButton = InlineKeyboardButton(text=ACCOUNT_SETTINGS['LIBRARY'],
-                                                                 callback_data='library')
+    return InlineKeyboardMarkup(inline_keyboard=[[user_info_button,
+                                                  world_library_button]])
 
-MAIN_OPTIONS_MENU_KB: InlineKeyboardMarkup = InlineKeyboardMarkup(inline_keyboard=[[USER_INFO_BUTTON,
-                                                                                    WORD_LIBRARY_BUTTON]])
 
 # user information settings menu
-NAME_BUTTON: InlineKeyboardButton = InlineKeyboardButton(text=ACCOUNT_SETTINGS['USER_INFORMATION']['NAME'],
-                                                         callback_data=UserInfoChangeCallback(flag='user_info_change',
-                                                                                              option='name').pack())
+async def info_settings_k_b(user_id: int):
+    name_button: InlineKeyboardButton = InlineKeyboardButton(text=await get_phrase(user_id, 'NAME'),
+                                                             callback_data=UserInfoChangeCallback(
+                                                                 flag='user_info_change',
+                                                                 option='name').pack())
 
-AGE_BUTTON: InlineKeyboardButton = InlineKeyboardButton(text=ACCOUNT_SETTINGS['USER_INFORMATION']['AGE'],
-                                                        callback_data=UserInfoChangeCallback(flag='user_info_change',
-                                                                                             option='age').pack())
+    age_button: InlineKeyboardButton = InlineKeyboardButton(text=await get_phrase(user_id, 'AGE'),
+                                                            callback_data=UserInfoChangeCallback(
+                                                                flag='user_info_change',
+                                                                option='age').pack())
 
-AVATAR_BUTTON: InlineKeyboardButton = InlineKeyboardButton(text=ACCOUNT_SETTINGS['USER_INFORMATION']['AVATAR'],
-                                                           callback_data=UserInfoChangeCallback(flag='user_info_change',
-                                                                                                option='photo').pack())
+    avatar_button: InlineKeyboardButton = InlineKeyboardButton(text=await get_phrase(user_id, 'AVATAR'),
+                                                               callback_data=UserInfoChangeCallback(
+                                                                   flag='user_info_change',
+                                                                   option='photo').pack())
 
-DELETE_USER_BUTTON: InlineKeyboardButton = InlineKeyboardButton(text=ACCOUNT_SETTINGS['USER_INFORMATION']['DELETE'],
-                                                                callback_data='delete')
+    back_button: InlineKeyboardButton = InlineKeyboardButton(text=await get_phrase(user_id, 'BACK'),
+                                                             callback_data='back')
 
-USER_INFO_K_b: InlineKeyboardMarkup = InlineKeyboardMarkup(inline_keyboard=[[NAME_BUTTON],
-                                                                            [AGE_BUTTON],
-                                                                            [AVATAR_BUTTON],
-                                                                            [DELETE_USER_BUTTON],
-                                                                            [BACK_BUTTON]])
+    return InlineKeyboardMarkup(inline_keyboard=[[name_button],
+                                                 [age_button],
+                                                 [avatar_button],
+                                                 [back_button]])

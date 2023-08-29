@@ -33,9 +33,9 @@ class Lesson:
         try:
             next_word = next(self.words)
             self.__right_answer = next_word.right_answer.translation
-            print(next_word.right_answer.word, next_word.right_answer.translation)
-
-            print(self.__right_answer)
+            # print(next_word.right_answer.word, next_word.right_answer.translation)
+            #
+            # print(self.__right_answer)
 
             return next_word
 

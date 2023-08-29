@@ -1,7 +1,7 @@
 from aiogram.utils.keyboard import InlineKeyboardBuilder, InlineKeyboardButton, InlineKeyboardMarkup
 from aiogram.filters.callback_data import CallbackData
 
-from lexicon.lexicon_en import LESSON_LEXICON
+from lexicon.lang_selection import get_phrase
 from random import shuffle
 
 
@@ -35,11 +35,11 @@ def choice_keyboard_creation(choices) -> InlineKeyboardMarkup:
 
 
 # keyboard for lesson repeating
-def repeat_lesson_or_not() -> InlineKeyboardMarkup:
-    repeat_button: InlineKeyboardButton = InlineKeyboardButton(text=LESSON_LEXICON['REPEAT_LESSON'],
+async def repeat_lesson_or_not(user_id: int) -> InlineKeyboardMarkup:
+    repeat_button: InlineKeyboardButton = InlineKeyboardButton(text=await get_phrase(user_id, 'REPEAT_LESSON'),
                                                                callback_data='repeat')
 
-    finish_button: InlineKeyboardButton = InlineKeyboardButton(text=LESSON_LEXICON['FINISH_LESSON'],
+    finish_button: InlineKeyboardButton = InlineKeyboardButton(text=await get_phrase(user_id, 'FINISH_LESSON'),
                                                                callback_data='finish')
 
     k_b: InlineKeyboardMarkup = InlineKeyboardMarkup(inline_keyboard=[[repeat_button, finish_button]])

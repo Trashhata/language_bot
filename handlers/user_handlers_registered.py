@@ -3,9 +3,10 @@ from aiogram.filters import Command, CommandStart, StateFilter
 from aiogram.types import Message
 
 from states.states import StudentState
-from keyboards import lesson_keyboard, options_keyboards
+from keyboards.options_keyboards import options_k_b
+from keyboards.lesson_keyboard import AMOUNT_SELECTION_KEYBOARD
 
-from lexicon.lexicon_en import MAIN_MENU_LEXICON, LESSON_LEXICON, ACCOUNT_SETTINGS
+from lexicon.lang_selection import get_phrase
 
 from states import states
 from aiogram.fsm.context import FSMContext
@@ -17,19 +18,19 @@ router: Router = Router()
 # HANDLER FOR /START COMMAND
 @router.message(CommandStart(), StateFilter(states.StudentState.REGISTERED))
 async def process_start_command(message: Message):
-    await message.answer(MAIN_MENU_LEXICON['START_MESSAGE'])
+    await message.answer(text=await get_phrase(message.from_user.id, 'START_MESSAGE'))
 
 
 # HANDLER FOR /HELP COMMAND
 @router.message(Command(commands='help'))
 async def process_help_command(message: Message):
-    await message.answer(MAIN_MENU_LEXICON['HELP_MESSAGE'])
+    await message.answer(text=await get_phrase(message.from_user.id, 'HELP_MESSAGE'))
 
 
 # HANDLER FOR NEW WORDS LEARNING
 @router.message(Command(commands=('new_lesson', 'repetition')), StateFilter(StudentState.REGISTERED))
 async def process_new_lesson_command(message: Message, state: FSMContext):
-    await message.answer(MAIN_MENU_LEXICON['LESSON_START'])
+    await message.answer(text=await get_phrase(message.from_user.id, 'LESSON_START'))
 
     if message.text == '/new_lesson':
         await state.update_data(lesson_type='new_lesson')
@@ -37,18 +38,18 @@ async def process_new_lesson_command(message: Message, state: FSMContext):
         await state.update_data(lesson_type='repetition')
 
     await state.set_state(StudentState.WORDS_AMOUNT_CHOICE)
-    await message.answer(text=LESSON_LEXICON['AMOUNT_SELECTION'],
-                         reply_markup=lesson_keyboard.AMOUNT_SELECTION_KEYBOARD)
+    await message.answer(text=await get_phrase(message.from_user.id, 'AMOUNT_SELECTION'),
+                         reply_markup=AMOUNT_SELECTION_KEYBOARD)
 
 
 # HANDLER FOR OPTIONS
 @router.message(Command(commands='settings'), StateFilter(StudentState.REGISTERED))
 async def process_options_command(message: Message, state: FSMContext):
-    await message.answer(MAIN_MENU_LEXICON['SETTINGS_DESCR'])
+    await message.answer(text=await get_phrase(message.from_user.id, 'SETTINGS_DESCR'))
 
     await state.set_state(StudentState.IN_OPTIONS)
-    await message.answer(text=ACCOUNT_SETTINGS['MAIN_MENU'],
-                         reply_markup=options_keyboards.MAIN_OPTIONS_MENU_KB)
+    await message.answer(text=await get_phrase(message.from_user.id, 'MAIN_MENU'),
+                         reply_markup=await options_k_b(message.from_user.id))
 
 
 # HANDLER FOR RETURN COMMAND
@@ -56,7 +57,7 @@ async def process_options_command(message: Message, state: FSMContext):
 async def process_return_command(message: Message, state: FSMContext):
     await state.set_state(StudentState.REGISTERED)
 
-    await message.answer(text=MAIN_MENU_LEXICON['START_MESSAGE'])
+    await message.answer(text=await get_phrase(message.from_user.id, 'START_MESSAGE'))
 
 
 # DEBUG STATE RESET COMMAND

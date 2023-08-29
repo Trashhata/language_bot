@@ -5,9 +5,11 @@ from aiogram.fsm.context import FSMContext
 from aiogram.fsm.state import default_state
 
 import keyboards.keyboards
+from keyboards.keyboards import LanguageCustomCallback
+
 from states.states import StudentState
 
-from lexicon.lexicon_en import REGISTRATION
+from lexicon.lang_selection import get_phrase
 from data_base.sqlite_base import write_into_base
 from filters.user_info_filters import age_filter
 
@@ -16,26 +18,27 @@ router = Router()
 
 @router.message(CommandStart(), StateFilter(default_state))
 async def process_start_command_registration(message: Message, state: FSMContext):
-    await message.answer(text=REGISTRATION['INITIALIZATION'])
+    await message.answer(text=await get_phrase(message.from_user.id, 'REGISTRATION_INITIALIZATION'))
 
     await state.update_data(id=message.from_user.id)
     await state.set_state(StudentState.LANG_SETTING)
 
 
 @router.callback_query(StateFilter(StudentState.LANG_SETTING),
-                       F.data in ('ru', 'en'))
-async def lang_selected(callback: CallbackQuery, state: FSMContext):
-    await state.update_data(lang=callback.data)
+                       LanguageCustomCallback.filter(F.data == 'language'))
+async def lang_selected(callback: CallbackQuery, callback_data: LanguageCustomCallback, state: FSMContext):
+    await state.update_data(lang=callback_data.lang)
     await state.update_data(StudentState.NAME_SETTING)
 
-    await callback.message.answer(REGISTRATION['NAME_SELECTION'])
+    await callback.message.answer(text=await get_phrase(callback.from_user.id, 'NAME_SELECTION'))
 
     await state.set_state(StudentState.NAME_SETTING)
 
 
 @router.message(StateFilter(StudentState.NAME_SETTING), F.text.isalpha())
 async def correct_name_enter(message: Message, state: FSMContext):
-    await message.answer(text=REGISTRATION['AGE_ENTER'])
+
+    await message.answer(text=await get_phrase(message.from_user.id, 'AGE_ENTER'))
 
     await state.update_data(name=message.text)
     await state.set_state(StudentState.AGE_SETTING)
@@ -43,7 +46,7 @@ async def correct_name_enter(message: Message, state: FSMContext):
 
 @router.message(StateFilter(StudentState.NAME_SETTING))
 async def incorrect_name_enter(message: Message):
-    await message.answer(text=REGISTRATION['INCORRECT_NAME'])
+    await message.answer(text=await get_phrase(message.from_user.id, 'INCORRECT_NAME'))
 
 
 @router.message(StateFilter(StudentState.AGE_SETTING),
@@ -52,18 +55,18 @@ async def correct_age_enter(message: Message, state: FSMContext):
     await state.update_data(age=int(message.text))
     await state.set_state(StudentState.PHOTO_SETTING)
 
-    await message.answer(text=REGISTRATION['AVATAR_SELECTION'],
-                         reply_markup=keyboards.keyboards.SKIP_KEYBOARD)
+    await message.answer(text=await get_phrase(message.from_user.id, 'AVATAR_SELECTION'),
+                         reply_markup=await keyboards.keyboards.skip_k_b(message.from_user.id))
 
 
 @router.message(StateFilter(StudentState.AGE_SETTING))
 async def incorrect_age_enter(message: Message):
-    await message.answer(text=REGISTRATION['INCORRECT_AGE'])
+    await message.answer(text=await get_phrase(message.from_user.id, 'INCORRECT_AGE'))
 
 
 @router.message(StateFilter(StudentState.PHOTO_SETTING), F.photo)
 async def correct_photo_upload(message: Message, state: FSMContext):
-    await message.answer(text=REGISTRATION['REGISTRATION_FINISHED'])
+    await message.answer(text=await get_phrase(message.from_user.id, 'REGISTRATION_FINISHED'))
 
     photo: PhotoSize = message.photo[0]
 
@@ -78,7 +81,7 @@ async def correct_photo_upload(message: Message, state: FSMContext):
 
 @router.callback_query(StateFilter(StudentState.PHOTO_SETTING), F.data == 'Skip.')
 async def skip_photo_selection(callback_query: CallbackQuery, state: FSMContext):
-    await callback_query.message.answer(text=REGISTRATION['REGISTRATION_FINISHED'])
+    await callback_query.message.answer(text=await get_phrase(callback_query.from_user.id, 'REGISTRATION_FINISHED'))
 
     await state.update_data(photo=None)
     await state.set_state(StudentState.REGISTERED)
@@ -88,4 +91,4 @@ async def skip_photo_selection(callback_query: CallbackQuery, state: FSMContext)
 
 @router.message(StateFilter(StudentState.PHOTO_SETTING))
 async def incorrect_age_enter(message: Message):
-    await message.answer(text=REGISTRATION['INCORRECT_DATA'])
+    await message.answer(text=await get_phrase(message.from_user.id,'INCORRECT_DATA'))

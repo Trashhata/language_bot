@@ -39,7 +39,3 @@ async def clear_library(user_id: int):
     user.clear_library()
 
     await update_user_obj(user)
-
-
-
-

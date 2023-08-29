@@ -4,11 +4,11 @@ from aiogram.fsm.context import FSMContext
 from aiogram.filters import StateFilter
 
 from states.states import StudentState
-from lexicon.lexicon_en import ACCOUNT_SETTINGS
+from lexicon.lang_selection import get_phrase
 from services.new_word_add_services import check_if_exists, push_new_word
 
-from keyboards.clear_library_keyboard import CANCEL_K_B
-from keyboards.word_library_keyboards import LIBRARY_MAIN_K_B
+from keyboards.clear_library_keyboard import create_cancel_cb
+from keyboards.word_library_keyboards import library_settings_k_b
 
 
 router: Router = Router()
@@ -20,8 +20,8 @@ router: Router = Router()
 async def add_new_word(callback: CallbackQuery, state: FSMContext):
     await state.set_state(StudentState.ENTER_NEW_WORD)
 
-    await callback.message.answer(text=ACCOUNT_SETTINGS['WORD_LIBRARY']['WORD'],
-                                  reply_markup=CANCEL_K_B)
+    await callback.message.answer(text=await get_phrase(callback.from_user.id, 'WORD'),
+                                  reply_markup=await create_cancel_cb(callback.from_user.id))
 
 
 # handler for a new word translation enter
@@ -36,15 +36,15 @@ async def add_new_word_translation(message: Message, state: FSMContext):
         await state.set_state(StudentState.ENTER_NEW_WORD_TRANSLATION)
         await state.update_data(word=message.text)
 
-        await message.answer(text=ACCOUNT_SETTINGS['WORD_LIBRARY']['TRANSLATION'],
-                             reply_markup=CANCEL_K_B)
+        await message.answer(text=await get_phrase(message.from_user.id, 'TRANSLATION'),
+                             reply_markup=await create_cancel_cb(message.from_user.id))
 
     # if in library, returns user back in the library menu
     else:
         await state.set_state(StudentState.WORD_LIBRARY)
 
-        await message.answer(text=ACCOUNT_SETTINGS['WORD_LIBRARY']['WORD_EXIST'],
-                             reply_markup=LIBRARY_MAIN_K_B)
+        await message.answer(text=await get_phrase(message.from_user.id, 'WORD_EXIST'),
+                             reply_markup=await library_settings_k_b(message.from_user.id))
 
 
 # handler for new word add confirmation
@@ -58,8 +58,8 @@ async def add_new_word_confirmation(message: Message, state: FSMContext):
 
     # returns user back in the library menu
     await state.set_state(StudentState.WORD_LIBRARY)
-    await message.answer(text=ACCOUNT_SETTINGS['WORD_LIBRARY']['WORD_ADDED'],
-                         reply_markup=LIBRARY_MAIN_K_B)
+    await message.answer(text=await get_phrase(message.from_user.id, 'WORD_ADDED'),
+                         reply_markup=await library_settings_k_b(message.from_user.id))
 
 
 # handler for new word add cancellation
@@ -67,5 +67,5 @@ async def add_new_word_confirmation(message: Message, state: FSMContext):
                        F.data == 'cancel')
 async def new_word_add_cancellation(callback: CallbackQuery, state: FSMContext):
     await state.set_state(StudentState.WORD_LIBRARY)
-    await callback.message.answer(text=ACCOUNT_SETTINGS['WORD_LIBRARY']['INITIALIZATION'],
-                                  reply_markup=LIBRARY_MAIN_K_B)
+    await callback.message.answer(text=await get_phrase(callback.from_user.id, 'LIBRARY_EDIT_INITIALIZATION'),
+                                  reply_markup=await library_settings_k_b(callback.from_user.id))

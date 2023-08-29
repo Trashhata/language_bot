@@ -4,10 +4,10 @@ from aiogram.filters import StateFilter
 from aiogram.fsm.context import FSMContext
 
 from states.states import StudentState
-from lexicon.lexicon_en import ACCOUNT_SETTINGS
+from lexicon.lang_selection import get_phrase
 
-from keyboards.clear_library_keyboard import CANCEL_K_B
-from keyboards.word_library_keyboards import LIBRARY_MAIN_K_B
+from keyboards.clear_library_keyboard import create_cancel_cb
+from keyboards.word_library_keyboards import library_settings_k_b
 
 from services.word_library_services import clear_library
 
@@ -20,8 +20,8 @@ router: Router = Router()
 async def clear_library_confirmation(callback: CallbackQuery, state: FSMContext):
     await state.set_state(StudentState.CLEAR_LIBRARY)
 
-    await callback.message.answer(text=ACCOUNT_SETTINGS['WORD_LIBRARY']['CONFIRMATION'],
-                                  reply_markup=CANCEL_K_B)
+    await callback.message.answer(text=await get_phrase(callback.from_user.id, 'CONFIRMATION'),
+                                  reply_markup=await create_cancel_cb(callback.from_user.id))
 
 
 # handler for confirmed clear
@@ -31,8 +31,9 @@ async def clear_library_confirmed(message: Message, state: FSMContext):
     await clear_library(message.from_user.id)
 
     await state.set_state(StudentState.WORD_LIBRARY)
-    await message.answer(text=ACCOUNT_SETTINGS['WORD_LIBRARY']['SUCCESS'],
-                         reply_markup=LIBRARY_MAIN_K_B)
+
+    await message.answer(text=await get_phrase(message.from_user.id,'SUCCESS'),
+                         reply_markup=await library_settings_k_b(message.from_user.id))
 
 
 # handler for clear cancellation
@@ -40,5 +41,5 @@ async def clear_library_confirmed(message: Message, state: FSMContext):
                        F.data == 'cancel')
 async def clear_library_cancellation(callback: CallbackQuery, state: FSMContext):
     await state.set_state(StudentState.WORD_LIBRARY)
-    await callback.message.answer(text=ACCOUNT_SETTINGS['WORD_LIBRARY']['INITIALIZATION'],
-                                  reply_markup=LIBRARY_MAIN_K_B)
+    await callback.message.answer(text=await get_phrase(callback.from_user.id,'LIBRARY_EDIT_INITIALIZATION'),
+                                  reply_markup=await library_settings_k_b(callback.from_user.id))

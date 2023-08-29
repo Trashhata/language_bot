@@ -1,8 +1,8 @@
 from data_base.users import User
 from data_base.sqlite_base import get_from_base, update_user_obj
-from lexicon.lexicon_en import ACCOUNT_SETTINGS
+from lexicon.lang_selection import get_phrase
 from states.states import StudentState
-from keyboards.options_keyboards import USER_INFO_K_b
+from keyboards.options_keyboards import info_settings_k_b
 
 from aiogram.types import Message, CallbackQuery, PhotoSize
 from aiogram.fsm.context import FSMContext
@@ -15,7 +15,7 @@ async def show_profile(user_id: int) -> tuple[str, str]:
     return f'Name: {user.name}\nAge: {user.age}\n', user.photo
 
 
-# answer users message with users profile card
+# answer users messages with user profile card
 async def answer_with_profile_info(message: Message | CallbackQuery):
 
     id_ = message.from_user.id
@@ -24,12 +24,13 @@ async def answer_with_profile_info(message: Message | CallbackQuery):
         message = message.message
 
     text, photo_url = await show_profile(id_)
-    text_2 = text + '\n' + ACCOUNT_SETTINGS['USER_INFORMATION']['INITIALIZATION']
+    text_2 = text + '\n' + await get_phrase(id_, 'INFO_EDIT_INITIALIZATION')
 
     if photo_url is None:
-        await message.answer(text=text_2, reply_markup=USER_INFO_K_b)
+        await message.answer(text=text_2, reply_markup=await info_settings_k_b(id_))
     else:
-        await message.answer_photo(photo=photo_url, caption=text_2, reply_markup=USER_INFO_K_b)
+        await message.answer_photo(photo=photo_url, caption=text_2,
+                                   reply_markup=await info_settings_k_b(id_))
 
 
 # changes user info by one of 3 params: name, age, photo
@@ -48,7 +49,7 @@ async def change_info(message: Message, state: FSMContext, param: str):
         user.photo = photo.file_id
 
     await update_user_obj(user)
-    await message.answer(text=ACCOUNT_SETTINGS['USER_INFORMATION']['EDITING']['EDITING_SUCCESS'])
+    await message.answer(text=await get_phrase(message.from_user.id, 'EDITING_SUCCESS'))
 
     await state.set_state(StudentState.USER_INFO_MENU)
     await answer_with_profile_info(message)
