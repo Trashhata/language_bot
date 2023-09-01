@@ -30,7 +30,4 @@ class StudentState(StatesGroup):
     CHANGE_PHOTO = State()
 
 
-storage: RedisStorage = RedisStorage(redis=redis.Redis(host='localhost',
-                                                       port=6379,
-                                                       decode_responses=True)
-                                     )
+storage: RedisStorage = RedisStorage(redis=redis.Redis(host='localhost'))
