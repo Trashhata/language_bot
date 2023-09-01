@@ -31,7 +31,7 @@ async def repetition_words(user_id: int, amount: int) -> list:
     return sample([i for i in words.values() if not i.learned], amount)
 
 
-# lesson logic. Generates words for a lesson.
+# Lesson logic. Generates words for a lesson.
 async def start_lesson(amount: int, user_id: int, repetition: bool = False):
     if repetition:
         lesson_words: list[Word] = await repetition_words(user_id, amount)
@@ -44,7 +44,6 @@ async def start_lesson(amount: int, user_id: int, repetition: bool = False):
                                           sample([i for i in lesson_words if i.word != word.word],
                                                  3)) for word in lesson_words])
         await update_user_obj(user)
-
 
 
 # lesson logic
