@@ -70,7 +70,7 @@ async def correct_age_enter(message: Message, state: FSMContext):
 
     await message.answer(text=await get_phrase(message.from_user.id, 'AVATAR_SELECTION',
                                                reg=True, reg_lang=(await state.get_data())['lang']),
-                         reply_markup=await keyboards.keyboards.skip_k_b(message.from_user.id))
+                         reply_markup=await keyboards.keyboards.skip_k_b(message.from_user.id, state))
 
 
 @router.message(StateFilter(StudentState.AGE_SETTING))

@@ -1,5 +1,6 @@
 from aiogram.types import ReplyKeyboardMarkup, KeyboardButton, InlineKeyboardButton, InlineKeyboardMarkup
 from aiogram.filters.callback_data import CallbackData
+from aiogram.fsm.context import FSMContext
 
 from lexicon.lang_selection import get_phrase
 
@@ -37,9 +38,11 @@ async def settings_k_b(user_id: int):
 
 
 # SKIP KEYBOARD
-async def skip_k_b(user_id: int):
-    skip_button: InlineKeyboardButton = InlineKeyboardButton(text=await get_phrase(user_id, 'SKIP'),
-                                                             callback_data='Skip.')
+async def skip_k_b(user_id: int, state: FSMContext):
+    skip_button: InlineKeyboardButton = InlineKeyboardButton(
+        text=await get_phrase(user_id, 'SKIP', reg=True,
+                              reg_lang=(await state.get_data())['lang']),
+        callback_data='Skip.')
 
     return InlineKeyboardMarkup(inline_keyboard=[[skip_button]])
 
