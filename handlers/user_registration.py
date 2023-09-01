@@ -49,8 +49,8 @@ async def lang_selected(callback: CallbackQuery, callback_data: LanguageCustomCa
 @router.message(StateFilter(StudentState.NAME_SETTING), F.text.isalpha())
 async def correct_name_enter(message: Message, state: FSMContext):
 
-    await message.answer(text=await get_phrase(message.from_user.id, 'AGE_ENTER'),
-                         reg=True, reg_lang=(await state.get_data())['lang'])
+    await message.answer(text=await get_phrase(message.from_user.id, 'AGE_ENTER',
+                         reg=True, reg_lang=(await state.get_data())['lang']))
 
     await state.update_data(name=message.text)
     await state.set_state(StudentState.AGE_SETTING)
@@ -58,8 +58,8 @@ async def correct_name_enter(message: Message, state: FSMContext):
 
 @router.message(StateFilter(StudentState.NAME_SETTING))
 async def incorrect_name_enter(message: Message, state: FSMContext):
-    await message.answer(text=await get_phrase(message.from_user.id, 'INCORRECT_NAME'),
-                         reg=True, reg_lang=(await state.get_data())['lang'])
+    await message.answer(text=await get_phrase(message.from_user.id, 'INCORRECT_NAME',
+                         reg=True, reg_lang=(await state.get_data())['lang']))
 
 
 @router.message(StateFilter(StudentState.AGE_SETTING),
@@ -75,8 +75,8 @@ async def correct_age_enter(message: Message, state: FSMContext):
 
 @router.message(StateFilter(StudentState.AGE_SETTING))
 async def incorrect_age_enter(message: Message, state: FSMContext):
-    await message.answer(text=await get_phrase(message.from_user.id, 'INCORRECT_AGE'),
-                         reg=True, reg_lang=(await state.get_data())['lang'])
+    await message.answer(text=await get_phrase(message.from_user.id, 'INCORRECT_AGE',
+                         reg=True, reg_lang=(await state.get_data())['lang']))
 
 
 @router.message(StateFilter(StudentState.PHOTO_SETTING), F.photo)
@@ -97,8 +97,8 @@ async def correct_photo_upload(message: Message, state: FSMContext):
 
 @router.callback_query(StateFilter(StudentState.PHOTO_SETTING), F.data == 'Skip.')
 async def skip_photo_selection(callback_query: CallbackQuery, state: FSMContext):
-    await callback_query.message.answer(text=await get_phrase(callback_query.from_user.id, 'REGISTRATION_FINISHED'),
-                                        reg=True, reg_lang=(await state.get_data())['lang'])
+    await callback_query.message.answer(text=await get_phrase(callback_query.from_user.id, 'REGISTRATION_FINISHED',
+                                        reg=True, reg_lang=(await state.get_data())['lang']))
 
     await state.update_data(photo=None)
     await state.set_state(StudentState.REGISTERED)
@@ -108,5 +108,5 @@ async def skip_photo_selection(callback_query: CallbackQuery, state: FSMContext)
 
 @router.message(StateFilter(StudentState.PHOTO_SETTING))
 async def incorrect_age_enter(message: Message, state: FSMContext):
-    await message.answer(text=await get_phrase(message.from_user.id, 'INCORRECT_DATA'),
-                         reg=True, reg_lang=(await state.get_data())['lang'])
+    await message.answer(text=await get_phrase(message.from_user.id, 'INCORRECT_DATA',
+                         reg=True, reg_lang=(await state.get_data())['lang']))
