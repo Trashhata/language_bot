@@ -22,7 +22,8 @@ async def process_start_command_registration(message: Message, state: FSMContext
 
     # if a user isn't in base
     except Exception:
-        await message.answer(text=await get_phrase(message.from_user.id, 'REGISTRATION_INITIALIZATION'),
+        await message.answer(text=await get_phrase(message.from_user.id, 'REGISTRATION_INITIALIZATION',
+                                                   reg=True, reg_lang='ru'),
                              reply_markup=await language_select_k_b(message.from_user.id))
 
         await state.update_data(id=message.from_user.id)
