@@ -47,7 +47,7 @@ async def add_new_word_translation(message: Message, state: FSMContext):
                              reply_markup=await library_settings_k_b(message.from_user.id))
 
 
-# handler for new word add confirmation
+# handler for new word adds confirmation
 @router.message(StateFilter(StudentState.ENTER_NEW_WORD_TRANSLATION),
                 F.func(lambda message: message.text.isalpha()))
 async def add_new_word_confirmation(message: Message, state: FSMContext):
@@ -62,7 +62,7 @@ async def add_new_word_confirmation(message: Message, state: FSMContext):
                          reply_markup=await library_settings_k_b(message.from_user.id))
 
 
-# handler for new word add cancellation
+# handler for new word adds cancellation
 @router.callback_query(StateFilter(StudentState.ENTER_NEW_WORD, StudentState.ENTER_NEW_WORD_TRANSLATION),
                        F.data == 'cancel')
 async def new_word_add_cancellation(callback: CallbackQuery, state: FSMContext):

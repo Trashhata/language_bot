@@ -20,6 +20,7 @@ class StudentState(StatesGroup):
     USER_INFO_CHANGE = State()
     WORD_LIBRARY = State()
     CLEAR_LIBRARY = State()
+    LANG_OPTIONS = State()
     # word add states
     ENTER_NEW_WORD = State()
     ENTER_NEW_WORD_TRANSLATION = State()

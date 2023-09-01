@@ -49,7 +49,7 @@ class User:
         self.__id: int = student_data['id']
         self.__name: str = student_data['name']
         self.__age: int = student_data['age']
-        # telegram id of user photo
+        # telegram id of a user photo
         self.__photo: str = student_data['photo']
 
         if 'words' not in student_data.keys():

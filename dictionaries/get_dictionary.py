@@ -1,4 +1,4 @@
-# returns dict object for reading
+# returns dict an object for reading
 def get_dictionary(language: str = 'en-ru'):
     # commands: dict[str, str] = {'en-ru': '.'}
 

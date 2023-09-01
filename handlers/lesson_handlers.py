@@ -7,15 +7,14 @@ from states.states import StudentState
 
 from keyboards.lesson_keyboard import AmountCallback, AMOUNT_SELECTION_KEYBOARD
 from lexicon.lang_selection import get_phrase
-from services.lesson_services import start_lesson, lesson_in_progress
+from services.lesson_services import start_lesson, lesson_in_progress, break_the_repetition_lesson
 from data_base.sqlite_base import get_from_base
-from handlers.user_handlers_registered import process_new_lesson_command
 
 
 router: Router = Router()
 
 
-# amount of words chose
+# number of words chose
 @router.callback_query(StateFilter(StudentState.WORDS_AMOUNT_CHOICE),
                        AmountCallback.filter(F.flag == 'amount'))
 async def right_amount_selected(callback_query: CallbackQuery, callback_data: AmountCallback, state: FSMContext):
@@ -25,18 +24,22 @@ async def right_amount_selected(callback_query: CallbackQuery, callback_data: Am
     repetition: bool = False if (await state.get_data())['lesson_type'] == 'new_lesson' else True
 
     # starts lesson
-    await start_lesson(amount=int(callback_data.amount),
-                       user_id=callback_query.from_user.id,
-                       repetition=repetition)
-
     try:
-        # first word showing
-        await lesson_in_progress(callback_query, state)
+        await start_lesson(amount=int(callback_data.amount),
+                           user_id=callback_query.from_user.id,
+                           repetition=repetition)
+    except ValueError:
+        await break_the_repetition_lesson(callback_query, state)
 
-    except Exception:
-        await callback_query.answer(text=await get_phrase(callback_query.from_user.id, 'CRASH'))
-        await state.set_state(StudentState.REGISTERED)
-        raise
+    else:
+        try:
+            # first word showing
+            await lesson_in_progress(callback_query, state)
+
+        except Exception:
+            await callback_query.answer(text=await get_phrase(callback_query.from_user.id, 'CRASH'))
+            await state.set_state(StudentState.REGISTERED)
+            raise
 
 
 # handler for incorrect amount selection

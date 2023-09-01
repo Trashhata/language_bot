@@ -1,7 +1,6 @@
 from aiogram import Router, F
 from aiogram.types import CallbackQuery
 from aiogram.filters import StateFilter
-from aiogram.fsm.context import FSMContext
 
 from data_base.sqlite_base import get_from_base, update_user_obj
 from data_base.users import User, WordExistError
@@ -79,5 +78,3 @@ async def delete_word_from_library(callback: CallbackQuery, callback_data: Custo
 
     await callback.message.edit_reply_markup(reply_markup=await generate_library_page(user_id=user_id,
                                                                                       page=callback_data.current_page))
-
-

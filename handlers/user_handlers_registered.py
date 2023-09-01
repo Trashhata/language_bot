@@ -52,16 +52,16 @@ async def process_options_command(message: Message, state: FSMContext):
                          reply_markup=await options_k_b(message.from_user.id))
 
 
-# HANDLER FOR RETURN COMMAND
-@router.message(Command(commands='return'), StateFilter(StudentState.REGISTERED))
-async def process_return_command(message: Message, state: FSMContext):
-    await state.set_state(StudentState.REGISTERED)
-
-    await message.answer(text=await get_phrase(message.from_user.id, 'START_MESSAGE'))
-
-
-# DEBUG STATE RESET COMMAND
-@router.message(Command(commands='reset_state'))
+# HANDLER FOR RETURNING TO THE MAIN MENU
+@router.message(Command(commands='return'), StateFilter(StudentState.REGISTERED, StudentState.WORDS_AMOUNT_CHOICE,
+                                                        StudentState.IN_LESSON, StudentState.LESSON_IS_OVER,
+                                                        StudentState.IN_OPTIONS, StudentState.USER_INFO_MENU,
+                                                        StudentState.USER_INFO_CHANGE, StudentState.WORD_LIBRARY,
+                                                        StudentState.CLEAR_LIBRARY, StudentState.LANG_OPTIONS,
+                                                        StudentState.ENTER_NEW_WORD, StudentState.CHANGE_NAME,
+                                                        StudentState.CHANGE_AGE, StudentState.CHANGE_PHOTO,
+                                                        StudentState.ENTER_NEW_WORD_TRANSLATION)
+                )
 async def reset_state_command(message: Message, state: FSMContext):
     await state.set_state(StudentState.REGISTERED)
-    await message.answer(text='INFO: State was set to "Registered".')
+    await message.answer(text=await get_phrase(message.from_user.id, 'BACK_TO_MENU'))

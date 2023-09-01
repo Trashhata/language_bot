@@ -96,6 +96,12 @@ async def generate_library_page(user_id: int, page: int) -> InlineKeyboardMarkup
     # the last row with pagination
     markup.append([prev_button, current_page_button, next_button])
 
+    # button to leave library edit
+    back_button: InlineKeyboardButton = InlineKeyboardButton(text=await get_phrase(user_id, 'BACK'),
+                                                             callback_data='cancel')
+
+    markup.append([back_button])
+
     current_page_k_b: InlineKeyboardMarkup = InlineKeyboardMarkup(inline_keyboard=markup)
 
     return current_page_k_b

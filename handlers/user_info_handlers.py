@@ -11,7 +11,7 @@ from keyboards.word_library_keyboards import library_settings_k_b
 
 from services.options_services import change_info, answer_with_profile_info
 from filters.user_info_filters import age_filter
-from handlers.user_handlers_registered import process_options_command
+
 
 router: Router = Router()
 
@@ -31,6 +31,16 @@ async def user_info_menu_selected(callback: CallbackQuery, state: FSMContext):
 async def word_library_selected(callback: CallbackQuery, state: FSMContext):
     await state.set_state(StudentState.WORD_LIBRARY)
 
+    await callback.message.answer(text=await get_phrase(callback.from_user.id, 'LIBRARY_EDIT_INITIALIZATION'),
+                                  reply_markup=await library_settings_k_b(callback.from_user.id))
+
+
+# handler for clear cancellation or exit from library editing
+@router.callback_query(StateFilter(StudentState.CLEAR_LIBRARY,
+                                   StudentState.WORD_LIBRARY),
+                       F.data == 'cancel')
+async def clear_or_edit_library_cancellation(callback: CallbackQuery, state: FSMContext):
+    await state.set_state(StudentState.WORD_LIBRARY)
     await callback.message.answer(text=await get_phrase(callback.from_user.id, 'LIBRARY_EDIT_INITIALIZATION'),
                                   reply_markup=await library_settings_k_b(callback.from_user.id))
 

@@ -34,12 +34,3 @@ async def clear_library_confirmed(message: Message, state: FSMContext):
 
     await message.answer(text=await get_phrase(message.from_user.id,'SUCCESS'),
                          reply_markup=await library_settings_k_b(message.from_user.id))
-
-
-# handler for clear cancellation
-@router.callback_query(StateFilter(StudentState.CLEAR_LIBRARY),
-                       F.data == 'cancel')
-async def clear_library_cancellation(callback: CallbackQuery, state: FSMContext):
-    await state.set_state(StudentState.WORD_LIBRARY)
-    await callback.message.answer(text=await get_phrase(callback.from_user.id,'LIBRARY_EDIT_INITIALIZATION'),
-                                  reply_markup=await library_settings_k_b(callback.from_user.id))

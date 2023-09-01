@@ -31,18 +31,20 @@ async def repetition_words(user_id: int, amount: int) -> list:
     return sample([i for i in words.values() if not i.learned], amount)
 
 
-# lesson logic. Generates words for lesson.
+# lesson logic. Generates words for a lesson.
 async def start_lesson(amount: int, user_id: int, repetition: bool = False):
     if repetition:
         lesson_words: list[Word] = await repetition_words(user_id, amount)
     else:
         lesson_words: list[Word] = get_new_words(amount)
 
-    user = await get_from_base(user_id)
-    user.lesson = Lesson([get_choices(word,
-                                      sample([i for i in lesson_words if i.word != word.word],
-                                             3)) for word in lesson_words])
-    await update_user_obj(user)
+    if lesson_words is not False:
+        user = await get_from_base(user_id)
+        user.lesson = Lesson([get_choices(word,
+                                          sample([i for i in lesson_words if i.word != word.word],
+                                                 3)) for word in lesson_words])
+        await update_user_obj(user)
+
 
 
 # lesson logic
@@ -85,5 +87,13 @@ async def end_lesson(message: CallbackQuery, state: FSMContext):
 
         user.sort_word_base()
 
-        # writes updated user object into base
+        # writes an updated user object into base
         await update_user_obj(user)
+
+
+# stops a repetition lesson if there are not enough words in a library
+async def break_the_repetition_lesson(callback: CallbackQuery, state: FSMContext):
+    await callback.message.answer(text=await get_phrase(callback.from_user.id, 'NOT_ENOUGH_WORDS'))
+
+    await state.set_state(StudentState.REGISTERED)
+    await callback.message.answer(text=await get_phrase(callback.from_user.id, 'BACK_TO_MENU'))
