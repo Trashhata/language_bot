@@ -28,20 +28,20 @@ async def right_amount_selected(callback_query: CallbackQuery, callback_data: Am
         await start_lesson(amount=int(callback_data.amount),
                            user_id=callback_query.from_user.id,
                            repetition=repetition)
-    except ValueError as error:
-        print(f'Ебучая ошибка\n{error}')
+    # except ValueError as error:
+    #     print(f'Ебучая ошибка\n{error}')
+    #
+    #     await break_the_repetition_lesson(callback_query, state)
 
-        await break_the_repetition_lesson(callback_query, state)
 
-    else:
-        try:
-            # first word showing
-            await lesson_in_progress(callback_query, state)
+    try:
+        # first word showing
+        await lesson_in_progress(callback_query, state)
 
-        except Exception:
-            await callback_query.answer(text=await get_phrase(callback_query.from_user.id, 'CRASH'))
-            await state.set_state(StudentState.REGISTERED)
-            raise
+    except Exception:
+        await callback_query.answer(text=await get_phrase(callback_query.from_user.id, 'CRASH'))
+        await state.set_state(StudentState.REGISTERED)
+        raise
 
 
 # handler for incorrect amount selection
