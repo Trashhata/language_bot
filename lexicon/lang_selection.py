@@ -6,7 +6,12 @@ from data_base.sqlite_base import get_lang
 
 async def get_phrase(user_id: int, key: str, reg: bool = False, reg_lang: str = 'ru') -> str | dict:
     if not reg:
-        lang = await get_lang(user_id)
+        try:
+            lang = await get_lang(user_id)
+
+        # if a user isn't registered and language can't be set up
+        except TypeError:
+            lang = 'ru'
 
     else:
         lang = reg_lang
