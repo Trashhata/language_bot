@@ -28,7 +28,9 @@ async def right_amount_selected(callback_query: CallbackQuery, callback_data: Am
         await start_lesson(amount=int(callback_data.amount),
                            user_id=callback_query.from_user.id,
                            repetition=repetition)
-    except ValueError:
+    except ValueError as error:
+        print(f'Ебучая ошибка\n{error}')
+
         await break_the_repetition_lesson(callback_query, state)
 
     else:
